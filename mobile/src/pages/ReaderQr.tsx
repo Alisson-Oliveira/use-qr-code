@@ -1,37 +1,82 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Text, View, StyleSheet, Image, Linking } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import { Camera } from 'expo-camera';
 import { BarCodeEvent, BarCodeScanner } from 'expo-barcode-scanner';
 import { RectButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
+
+import maximizeImg from '../images/maximize.png';
+import { ADD_LINK, GET_STORAGE, SET_STORAGE } from '../config/storage';
+
+interface LinkProps {
+  link: string,
+}
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [domain, setDomain] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {(
     async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const { status } = await Camera.requestPermissionsAsync();
 
-      if (status === 'granted') {
-        setHasPermission(true);
-      }
+      setHasPermission(status === 'granted');
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ data }: BarCodeEvent) => {
+  async function handleBarCodeScanned({ data }: BarCodeEvent) {
     setScanned(true);
+
     setDomain(data);
   };
 
-  const handleBarCodeScannedCallback = (params: BarCodeEvent) => {}
+  function handleAccess(link: string) {
+    Linking.openURL(link).catch(err => console.error("Couldn't load page", err));
+    
+    addLink(link);
+  };
 
-  if (hasPermission === null) {
-    return <View />;
+  function handleBackHome(link: string) {
+    addLink(link);
+  };
+
+  async function addLink(link: string) {
+    const response = await GET_STORAGE(); 
+
+    if (!response) {
+      return ;
+    }
+
+    if (response.length === 0) {
+      const newLink = {
+        link
+      }
+
+      const data: LinkProps[] = [ newLink ];
+
+      SET_STORAGE(data); 
+    } else {
+      const data = {
+        link
+      }
+
+      ADD_LINK(data);
+    }
+
+    navigation.goBack();
   }
 
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+  async function handleBarCodeScannedCallback() {}
+
+  if (!hasPermission) {
+    return (
+      <View style={styles.loading}>
+        <Text>Carregando...</Text>
+      </View>
+    );
   }
 
   return (
@@ -39,14 +84,22 @@ export default function App() {
       <BarCodeScanner
         onBarCodeScanned={ !scanned ? handleBarCodeScanned : handleBarCodeScannedCallback }
         style={[StyleSheet.absoluteFillObject, {
+          backgroundColor: '#DDDDDD',
           justifyContent: 'flex-start',
           alignItems: 'center',
-          paddingTop: 72,
+          paddingTop: 112,
         }]}
       >
-        <Feather name="maximize" size={386} color='#FFFFFF' />
+      {
+        !scanned &&
+        <>
+          <Image source={maximizeImg} />
+          <RectButton style={styles.buttonClose} onPress={navigation.goBack}>
+            <Feather name="x" size={32} color='#000000' />
+          </RectButton>
+        </>
+      }
       </BarCodeScanner>
-
       {
         scanned &&
         <View style={styles.response}>
@@ -55,13 +108,17 @@ export default function App() {
             <View style={styles.containerLink}>
               <Text>{domain}</Text>
             </View>
-            <RectButton style={styles.buttonAcess} >
+            <RectButton style={styles.buttonAcess} onPress={() => handleAccess(domain)} >
               <Text style={styles.title}>Acessar</Text>
               <Feather name="link-2" size={24} />
             </RectButton>
             <RectButton style={styles.buttonAgain} onPress={() => setScanned(false)}>
-              <Text style={styles.title}>Scanear Novamente</Text>
-              <Feather name="rotate-ccw" size={24} />
+              <Text style={[styles.title, { color: '#FFFFFF' }]}>Scanear Novamente</Text>
+              <Feather name="rotate-ccw" size={24} color='#FFFFFF' />
+            </RectButton>
+            <RectButton style={styles.buttonBackHome} onPress={() => handleBackHome(domain)}>
+              <Text style={[styles.title, { color: '#FFFFFF' }]}>Voltar ao Inicio</Text> 
+              <Feather name="corner-down-left" size={32} color='#FFFFFF' />
             </RectButton>
           </View>
         </View>        
@@ -71,16 +128,33 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
   response: {
     flex: 1,
-    marginTop: 54,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 48,
+  },
+
+  buttonClose: {
+    width: 64,
+    height: 64,
+    elevation: 3,
+    marginTop: 92,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
   },
 
   responseData: {
     width: '80%',
-    height: 412,
+    height: 480,
     padding: 12,
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -121,6 +195,16 @@ const styles = StyleSheet.create({
     height: 64,
     width: '100%',
     backgroundColor: '#808080',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  buttonBackHome: {
+    borderRadius: 12,
+    height: 64,
+    width: '100%',
+    backgroundColor: '#404040',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

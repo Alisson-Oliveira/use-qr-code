@@ -1,16 +1,36 @@
-import React from 'react';
-
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, StyleSheet, ScrollView, Linking } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
-
 import { useNavigation } from '@react-navigation/native';
+import { GET_STORAGE, REMOVE_LINK } from '../config/storage';
+
+interface LinkProps {
+  link: string,
+}
 
 export default function Panel() {
+  const [links, setLinks] = useState<LinkProps[]>([]);
   const navigation = useNavigation();
+  
+  useEffect(() => { 
+    GET_STORAGE().then(response => {
+      if (response !== undefined) {
+        setLinks(response);
+      }
+    })
+  },[links]);
 
   function handleToScanQrCode() {
     return navigation.navigate('ReaderQr');
+  }
+
+  function handleAccessLink(link: string) {
+    Linking.openURL(link).catch(err => console.error("Couldn't load page", err));
+  };
+
+  function handleRemoveLink(link: string) {
+    REMOVE_LINK(link);
   }
 
   return (
@@ -29,33 +49,19 @@ export default function Panel() {
         </View>
         <Text style={styles.title}>Recently Opened</Text>
         <View style={styles.links}>
-          <View style={styles.containerLink}> 
-            <RectButton style={styles.link}>
-              <Feather style={styles.icon} name="globe" size={27} />
-              <Text style={styles.dominio}>www.wos.com</Text>
-            </RectButton>
-            <RectButton>
-              <Feather style={styles.iconClose} name="x" size={20} />
-            </RectButton>
-          </View>
-          <View style={styles.containerLink}> 
-            <RectButton style={styles.link}>
-              <Feather style={styles.icon} name="globe" size={27} />
-              <Text style={styles.dominio}>www.padim.com</Text>
-            </RectButton>
-            <RectButton>
-              <Feather style={styles.iconClose} name="x" size={20} />
-            </RectButton>
-          </View>
-          <View style={styles.containerLink}> 
-            <RectButton style={styles.link}>
-              <Feather style={styles.icon} name="globe" size={27} />
-              <Text style={styles.dominio}>www.entregascariri.com</Text>
-            </RectButton>
-            <RectButton>
-              <Feather style={styles.iconClose} name="x" size={20} />
-            </RectButton>
-          </View>
+          {
+            links.map((response, index) => (
+              <View key={index} style={styles.containerLink}> 
+                <RectButton style={styles.link} onPress={() => handleAccessLink(response.link)}>
+                  <Feather style={styles.icon} name="link" size={27} />
+                  <Text style={styles.dominio}>{response.link}</Text>
+                </RectButton>
+                <RectButton onPress={() => handleRemoveLink(response.link)}>
+                  <Feather style={styles.iconClose} name="x" size={20} />
+                </RectButton>
+              </View>
+            ))
+          }
         </View>
       </View>  
     </ScrollView>
@@ -98,7 +104,8 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
 
-  containerLink: { 
+  containerLink: {
+    padding: 6,
     flexDirection: 'row', 
     alignItems: 'center', 
     justifyContent: 'space-between' 
@@ -106,7 +113,6 @@ const styles = StyleSheet.create({
 
   link: {
     flex: 1,
-    height: 56,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -114,6 +120,8 @@ const styles = StyleSheet.create({
 
   dominio: {
     fontSize: 16,
+    flex: 1,
+    paddingRight: 12,
   },
 
   iconClose: {

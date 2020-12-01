@@ -11,11 +11,14 @@ import ReaderQr from './pages/ReaderQr';
 export default function Routes() {
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator screenOptions={{ 
+        headerShown: false,
+      }}>
         <Screen 
           name="Panel" 
-          component={Panel} 
+          component={Panel}
           options={{ 
+            headerShown: true,
             title: 'Qr Code', 
             headerTitleAlign: 'center' 
           }}
