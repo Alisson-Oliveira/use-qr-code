@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const { Navigator, Screen } = createStackNavigator();
 
 import Panel from './pages/Panel';
+import ContactUs from './pages/ContactUs';
 import ReaderQr from './pages/ReaderQr';
 
 export default function Routes() {
@@ -20,6 +21,15 @@ export default function Routes() {
           options={{ 
             headerShown: true,
             title: 'Qr Code', 
+            headerTitleAlign: 'center' 
+          }}
+        />
+        <Screen 
+          name="ContactUs" 
+          component={ContactUs}
+          options={{ 
+            headerShown: true,
+            title: 'Contact Us', 
             headerTitleAlign: 'center' 
           }}
         />

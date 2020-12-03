@@ -5,13 +5,8 @@ import { Camera } from 'expo-camera';
 import { BarCodeEvent, BarCodeScanner } from 'expo-barcode-scanner';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-
-import maximizeImg from '../images/maximize.png';
 import { ADD_LINK, GET_STORAGE, SET_STORAGE } from '../config/storage';
-
-interface LinkProps {
-  link: string,
-}
+import maximizeImg from '../images/maximize.png';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(false);
@@ -22,19 +17,20 @@ export default function App() {
   useEffect(() => {(
     async () => {
       const { status } = await Camera.requestPermissionsAsync();
-
       setHasPermission(status === 'granted');
     })();
   }, []);
 
   async function handleBarCodeScanned({ data }: BarCodeEvent) {
     setScanned(true);
-
     setDomain(data);
   };
 
   function handleAccess(link: string) {
-    Linking.openURL(link).catch(err => console.error("Couldn't load page", err));
+    Linking.openURL(link).catch(err => {
+      console.error(err);
+      alert("Couldn't load page");
+    });
     
     addLink(link);
   };
@@ -130,15 +126,15 @@ export default function App() {
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 
   response: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   buttonClose: {
@@ -153,15 +149,15 @@ const styles = StyleSheet.create({
   },
 
   responseData: {
-    width: '80%',
     height: 480,
     padding: 12,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    width: '80%',
     borderRadius: 12,
+    alignItems: 'center',
     position: 'absolute',
+    flexDirection: 'column',
     backgroundColor: '#FFFFFF',
+    justifyContent: 'space-between',
   },
 
   containerLink: {
@@ -169,59 +165,59 @@ const styles = StyleSheet.create({
     padding: 12, 
     width: '100%', 
     borderRadius: 12, 
-    justifyContent: 'center', 
     alignItems: 'center', 
+    justifyContent: 'center',
     backgroundColor: '#F0F0F0'
   },
 
   title: {
-    color: '#000000',
-    paddingRight: 6,
     fontSize: 20,
+    paddingRight: 6,
+    color: '#000000',
   },
 
   buttonAcess: {
-    width: '100%',
     height: 64,
+    width: '100%',
     borderRadius: 12,
-    backgroundColor: '#00CC44',
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#00CC44',
   },
 
   buttonAgain: {
-    borderRadius: 12,
     height: 64,
     width: '100%',
-    backgroundColor: '#808080',
+    borderRadius: 12,
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#808080',
   },
 
   buttonBackHome: {
-    borderRadius: 12,
     height: 64,
     width: '100%',
-    backgroundColor: '#404040',
+    borderRadius: 12,
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#404040',
   },
 
   buttons: {
-    bottom: 0,
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center', 
+    bottom: 0,
+    width: 64,
+    height: 64,
+    elevation: 3,
     marginRight: 18,
     marginBottom: 32,
     borderRadius: 100,
     position: 'absolute',
-    height: 64,
-    width: 64,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#FFFFFF',
-    elevation: 3,
   }
 });

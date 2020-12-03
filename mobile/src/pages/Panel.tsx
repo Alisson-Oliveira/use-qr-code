@@ -3,11 +3,7 @@ import { Text, View, StyleSheet, ScrollView, Linking } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { GET_STORAGE, REMOVE_LINK } from '../config/storage';
-
-interface LinkProps {
-  link: string,
-}
+import { GET_STORAGE, REMOVE_ALL, REMOVE_LINK } from '../config/storage';
 
 export default function Panel() {
   const [links, setLinks] = useState<LinkProps[]>([]);
@@ -18,20 +14,32 @@ export default function Panel() {
       if (response !== undefined) {
         setLinks(response);
       }
-    })
+    });
   },[links]);
 
   function handleToScanQrCode() {
     return navigation.navigate('ReaderQr');
   }
 
+  function handleToContactUs() {
+    return navigation.navigate('ContactUs');
+  }
+
+  function handleRemoveAll() {
+    REMOVE_ALL();
+  }
+
   function handleAccessLink(link: string) {
-    Linking.openURL(link).catch(err => console.error("Couldn't load page", err));
+    Linking.openURL(link)
+      .catch(err => {
+        console.error(err);
+        alert("Couldn't load page");
+      });
   };
 
   function handleRemoveLink(link: string) {
     REMOVE_LINK(link);
-  }
+  } 
 
   return (
     <ScrollView style={styles.container}>
@@ -42,25 +50,38 @@ export default function Panel() {
             <Feather style={styles.icon} name="maximize" size={32} />
             <Text style={styles.subTitle}>Scan QR Code</Text>
           </RectButton>
-          <RectButton style={styles.button}>
-            <Feather style={styles.icon} name="help-circle" size={32} />
-            <Text style={styles.subTitle}>Ajuda</Text>
+          <RectButton style={styles.button} onPress={handleToContactUs}>
+            <Feather style={styles.icon} name="mail" size={32} />
+            <Text style={styles.subTitle}>Contact Us</Text>
           </RectButton>
         </View>
-        <Text style={styles.title}>Recently Opened</Text>
+        <View style={styles.containerCleanAll}>
+          <Text style={styles.title}>Recently Opened</Text> 
+          <RectButton style={styles.containerButtonCleanAll} onPress={handleRemoveAll}>
+            <Text style={styles.titleCleanAll}>Clean All</Text>
+            <Feather name="trash-2" size={16} color='#FF4040' />
+          </RectButton>
+        </View>
         <View style={styles.links}>
           {
-            links.map((response, index) => (
-              <View key={index} style={styles.containerLink}> 
-                <RectButton style={styles.link} onPress={() => handleAccessLink(response.link)}>
-                  <Feather style={styles.icon} name="link" size={27} />
-                  <Text style={styles.dominio}>{response.link}</Text>
-                </RectButton>
-                <RectButton onPress={() => handleRemoveLink(response.link)}>
-                  <Feather style={styles.iconClose} name="x" size={20} />
-                </RectButton>
+            links.length !== 0 ? (
+              links.map((response, index) => (
+                <View key={index} style={styles.containerLink}> 
+                  <RectButton style={styles.link} onPress={() => handleAccessLink(response.link)}>
+                    <Feather style={styles.icon} name="link" size={27} />
+                    <Text style={styles.dominio}>{response.link}</Text>
+                  </RectButton>
+                  <RectButton onPress={() => handleRemoveLink(response.link)}>
+                    <Feather style={styles.iconClose} name="x" size={20} />
+                  </RectButton>
+                </View>
+              ))
+            ) : (
+              <View style={styles.containerEmpty}>
+                <Feather name="alert-triangle" size={20} color='#000000' />
+                <Text>Has no link available :(</Text>
               </View>
-            ))
+            )
           }
         </View>
       </View>  
@@ -84,7 +105,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 18,
-  },
+  }, 
 
   button: {
     height: 64,
@@ -96,36 +117,70 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
 
+  containerCleanAll: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  containerButtonCleanAll: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+
+  titleCleanAll: {
+    fontSize: 16,
+    marginRight: 3,
+    color: '#FF4040',
+  },
+
   subTitle: {
     fontSize: 16,
   },
 
   links: {
-    marginTop: 6,
+    marginTop: 12,
+  },
+
+  containerEmpty: {
+    padding: 9,
+    height: 64,
+    elevation: 3,
+    marginTop: 12,
+    borderRadius: 12,
+    alignItems: 'center', 
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'space-between', 
   },
 
   containerLink: {
     padding: 6,
+    elevation: 3,
+    marginTop: 12,
+    borderRadius: 12,
     flexDirection: 'row', 
     alignItems: 'center', 
+    backgroundColor: '#FFFFFF',
     justifyContent: 'space-between' 
   },
 
   link: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
 
   dominio: {
-    fontSize: 16,
     flex: 1,
+    fontSize: 16,
     paddingRight: 12,
   },
 
   iconClose: {
+    color: '#808080',
     justifyContent: 'flex-end', 
-    color: '#808080', 
   },
 });

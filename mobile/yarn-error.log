@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @react-native-async-storage/async-storage
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add expo-mail-composer@~8.4.0
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\TXE Components\TCS\;C:\Program Files\Intel\TXE Components\TCS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\TXE Components\DAL\;C:\Program Files (x86)\Intel\TXE Components\DAL\;C:\Program Files\Intel\TXE Components\IPT\;C:\Program Files (x86)\Intel\TXE Components\IPT\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Git LFS;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_261\bin;C:\Mobile\android_sdk\cmdline-tools\tools\bin;C:\Mobile\android_sdk\platform-tools;C:\Mobile\android_sdk\tools;C:\Mobile\gradle-5.3\bin;C:\Users\aliss\anaconda3\;C:\Program Files\dotnet\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Users\aliss\AppData\Local\Yarn\bin;C:\Users\aliss\AppData\Local\Programs\Python\Python36\Scripts\;C:\Users\aliss\AppData\Local\Programs\Python\Python36\;C:\Users\aliss\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\aliss\AppData\Local\Programs\Python\Python38\;C:\Users\aliss\AppData\Local\Microsoft\WindowsApps;C:\Users\aliss\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\aliss\.dotnet\tools;C:\Users\aliss\AppData\Roaming\npm;C:\Users\aliss\AppData\Local\Yarn\bin
@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, lstat 'C:\Users\aliss\Desktop\WWW\Only Mobile\Reader Qrcode\scanner-qr-code\mobile\node_modules\@babel\helper-compilation-targets\node_modules\.bin'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\aliss\Desktop\WWW\Only Mobile\Reader Qrcode\scanner-qr-code\mobile\node_modules\@babel\generator\node_modules\.bin'
 
 npm manifest: 
   {
@@ -27,6 +27,7 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@react-native-async-storage/async-storage": "^1.13.2",
       "@react-native-community/masked-view": "^0.1.10",
       "@react-navigation/native": "^5.8.10",
       "@react-navigation/stack": "^5.12.8",
@@ -1191,6 +1192,13 @@ Lockfile:
     integrity sha512-oTATxVRYceI0ZrlcAYGwhXU5l+rHd14yFlAyQfgbwi+vfFnnMX9EwU85RlGHIKf0BT4rrIIJm73L9lgz/+/EnA==
     dependencies:
       dequal "^1.0.0"
+  
+  "@react-native-async-storage/async-storage@^1.13.2":
+    version "1.13.2"
+    resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.13.2.tgz#649f78527f16cd5a87071a888219ef7a35ef5c79"
+    integrity sha512-isTDvUApRJPVWFxV15yrQSOGqarX7cIedq/y4N5yWSnotf68D9qvDEv1I7rCXhkBDi0u4OJt6GA9dksUT0D3wg==
+    dependencies:
+      deep-assign "^3.0.0"
   
   "@react-native-community/cli-debugger-ui@^4.13.1":
     version "4.13.1"
