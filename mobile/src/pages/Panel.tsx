@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ScrollView, Linking } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Linking, Share } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -37,6 +37,18 @@ export default function Panel() {
       });
   };
 
+  function handleShareLink(link: string) {
+    try {
+      Share.share({ message: link })
+        .catch(err => {
+          console.error(err);
+          alert("Couldn't share");
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   function handleRemoveLink(link: string) {
     REMOVE_LINK(link);
   } 
@@ -71,8 +83,11 @@ export default function Panel() {
                     <Feather style={styles.icon} name="link" size={27} />
                     <Text style={styles.dominio}>{response.link}</Text>
                   </RectButton>
+                  <RectButton onPress={() => handleShareLink(response.link)}>
+                    <Feather style={[styles.iconShareClose, { marginRight: 6 }]} name="share-2" size={20} />
+                  </RectButton>
                   <RectButton onPress={() => handleRemoveLink(response.link)}>
-                    <Feather style={styles.iconClose} name="x" size={20} />
+                    <Feather style={styles.iconShareClose} name="x" size={20} />
                   </RectButton>
                 </View>
               ))
@@ -90,6 +105,7 @@ export default function Panel() {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
   },
@@ -179,7 +195,7 @@ const styles = StyleSheet.create({
     paddingRight: 12,
   },
 
-  iconClose: {
+  iconShareClose: {
     color: '#808080',
     justifyContent: 'flex-end', 
   },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Image, Linking } from 'react-native';
+import { Text, View, StyleSheet, Image, Linking, Share } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Camera } from 'expo-camera';
 import { BarCodeEvent, BarCodeScanner } from 'expo-barcode-scanner';
@@ -34,6 +34,19 @@ export default function App() {
     
     addLink(link);
   };
+
+  function handleShare(link: string) { 
+    try {
+      Share.share({ message: link })
+        .catch(err => {
+          console.error(err);
+          alert("Couldn't share");
+        });
+      addLink(link);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function handleBackHome(link: string) {
     addLink(link);
@@ -100,20 +113,26 @@ export default function App() {
         scanned &&
         <View style={styles.response}>
           <View style={styles.responseData}>
-            <Text style={styles.title}>Link</Text>
+            <Text style={[styles.title, { color: '#000000' }]}>Link</Text>
             <View style={styles.containerLink}>
               <Text>{domain}</Text>
             </View>
-            <RectButton style={styles.buttonAcess} onPress={() => handleAccess(domain)} >
-              <Text style={styles.title}>Acessar</Text>
-              <Feather name="link-2" size={24} />
-            </RectButton>
+            <View style={{flexDirection: 'row'}}>
+              <RectButton style={styles.buttonAcess} onPress={() => handleAccess(domain)} >
+                <Text style={styles.title}>Acess</Text>
+                <Feather name="link-2" size={24} color='#FFFFFF' />
+              </RectButton>
+              <RectButton style={styles.buttonShare} onPress={() => handleShare(domain)} >
+                <Text style={styles.title}>Share</Text>
+                <Feather name="share-2" size={24} color='#FFFFFF' />
+              </RectButton>
+            </View>
             <RectButton style={styles.buttonAgain} onPress={() => setScanned(false)}>
-              <Text style={[styles.title, { color: '#FFFFFF' }]}>Scanear Novamente</Text>
+              <Text style={styles.title}>Scan Again</Text>
               <Feather name="rotate-ccw" size={24} color='#FFFFFF' />
             </RectButton>
             <RectButton style={styles.buttonBackHome} onPress={() => handleBackHome(domain)}>
-              <Text style={[styles.title, { color: '#FFFFFF' }]}>Voltar ao Inicio</Text> 
+              <Text style={styles.title}>Back to the Panel</Text> 
               <Feather name="corner-down-left" size={32} color='#FFFFFF' />
             </RectButton>
           </View>
@@ -173,17 +192,29 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     paddingRight: 6,
-    color: '#000000',
+    color: '#FFFFFF',
   },
 
   buttonAcess: {
+    flex: 1,
     height: 64,
-    width: '100%',
+    marginRight: 5,
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#00CC44',
+  },
+
+  buttonShare: {
+    flex: 1,
+    height: 64,
+    marginLeft: 5,
+    borderRadius: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#0099FF',
   },
 
   buttonAgain: {
