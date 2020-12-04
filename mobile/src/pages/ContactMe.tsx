@@ -4,13 +4,13 @@ import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
 import * as MailComposer from 'expo-mail-composer';
 
-export default function ContactUs() {
+export default function ContactMe() {
 
   async function handleToSendMail() {
     const response = await MailComposer.isAvailableAsync();
     if(response) {
-      MailComposer.composeAsync({
-        recipients: ['olswkn.develop@gmail.com'],
+      await MailComposer.composeAsync({
+        recipients: ['alsrokn@gmail.com'],
         subject: "",
         body: "",
       });
@@ -18,7 +18,7 @@ export default function ContactUs() {
   }
 
   async function handleToRepository() {
-    await Linking.openURL('https://github.com/Alisson-Oliveira/scanner-qr-code');
+    await Linking.openURL('https://github.com/Alisson-Oliveira/use-qr-code');
   }
 
   return (
@@ -45,7 +45,7 @@ export default function ContactUs() {
           </View>
           <RectButton style={styles.containerLink} onPress={handleToRepository}>
             <Feather name='link' size={20} />
-            <Text style={styles.titleLink}>https://github.com/Alisson-Oliveira/scanner-qr-code</Text>
+            <Text style={styles.titleLink}>https://github.com/Alisson-Oliveira/use-qr-code</Text>
           </RectButton>
         </View>
         <View style={styles.containerItem}>
@@ -55,11 +55,11 @@ export default function ContactUs() {
           </View>
           <View>
             <Text style={styles.subTitle}>- Idea to add to the app?</Text>
-            <Text style={styles.subTitle}>- Any error?</Text>
+            <Text style={styles.subTitle}>- Any bug?</Text>
           </View>
         </View>
         <View style={styles.containerSend}>
-          <Text style={styles.textContactUs}>Please, contact us :)</Text>
+          <Text style={styles.textContactUs}>Please, contact me :)</Text>
           <RectButton style={styles.containerButtonSend} onPress={handleToSendMail}>
             <Text style={styles.TextSend}>Send</Text>
             <Feather name='send' size={20} color='#0099FF' />

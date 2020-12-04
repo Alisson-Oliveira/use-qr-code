@@ -21,8 +21,8 @@ export default function Panel() {
     return navigation.navigate('ReaderQr');
   }
 
-  function handleToContactUs() {
-    return navigation.navigate('ContactUs');
+  function handleToContactMe() {
+    return navigation.navigate('ContactMe');
   }
 
   function handleRemoveAll() {
@@ -62,9 +62,9 @@ export default function Panel() {
             <Feather style={styles.icon} name="maximize" size={32} />
             <Text style={styles.subTitle}>Scan QR Code</Text>
           </RectButton>
-          <RectButton style={styles.button} onPress={handleToContactUs}>
+          <RectButton style={styles.button} onPress={handleToContactMe}>
             <Feather style={styles.icon} name="mail" size={32} />
-            <Text style={styles.subTitle}>Contact Us</Text>
+            <Text style={styles.subTitle}>Contact Me</Text>
           </RectButton>
         </View>
         <View style={styles.containerCleanAll}>
