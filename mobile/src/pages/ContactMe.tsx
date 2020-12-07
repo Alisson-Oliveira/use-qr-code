@@ -2,19 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet, Linking } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { RectButton } from 'react-native-gesture-handler';
-import * as MailComposer from 'expo-mail-composer';
 
 export default function ContactMe() {
 
   async function handleToSendMail() {
-    const response = await MailComposer.isAvailableAsync();
-    if(response) {
-      await MailComposer.composeAsync({
-        recipients: ['alsrokn@gmail.com'],
-        subject: "",
-        body: "",
-      });
-    }
+    await Linking.openURL('mailto:alsrokn@gmail.com?subject=Suporte App Use Qr Code');
   }
 
   async function handleToRepository() {
@@ -26,17 +18,10 @@ export default function ContactMe() {
       <View style={styles.containerOptions}>
         <View style={styles.containerItem}>
           <View style={styles.containerTitleIcon}>
-            <Feather name='book-open' size={20} />
-            <Text style={styles.containerTitle}>About</Text>
-          </View>
-          <Text style={[styles.subTitle, styles.justify]}>O The QR Code is an evolution of the barcode, which has existed since 1970 and revolutionized the identification of products. It consists of a 2D graphic (the common barcode uses only one dimension, the horizontal, while the QR uses the vertical and the horizontal) that can be read by the cameras of most cell phones (some models still require specific applications for this).</Text>
-        </View>
-        <View style={styles.containerItem}>
-          <View style={styles.containerTitleIcon}>
             <Feather name='package' size={20} />
             <Text style={styles.containerTitle}>Version</Text>
           </View>
-          <Text style={styles.subTitle}>1.0.0</Text>
+          <Text style={styles.subTitle}>1.0.2</Text>
         </View>
         <View style={styles.containerItem}>
           <View style={styles.containerTitleIcon}>
@@ -50,8 +35,8 @@ export default function ContactMe() {
         </View>
         <View style={styles.containerItem}>
           <View style={styles.containerTitleIcon}>
-            <Feather name='tag' size={20} />
-            <Text style={styles.containerTitle}>Tags</Text>            
+            <Feather name='edit-3' size={20} />
+            <Text style={styles.containerTitle}>Suporte</Text>            
           </View>
           <View>
             <Text style={styles.subTitle}>- Idea to add to the app?</Text>
@@ -59,7 +44,7 @@ export default function ContactMe() {
           </View>
         </View>
         <View style={styles.containerSend}>
-          <Text style={styles.textContactUs}>Please, contact me :)</Text>
+          <Text style={styles.textContactMe}>Please, contact me :)</Text>
           <RectButton style={styles.containerButtonSend} onPress={handleToSendMail}>
             <Text style={styles.TextSend}>Send</Text>
             <Feather name='send' size={20} color='#0099FF' />
@@ -78,7 +63,6 @@ const styles = StyleSheet.create({
   containerOptions: {
     flex: 1,
     padding: 24,
-    justifyContent: 'space-between',
   },
 
   containerItem: {
@@ -126,7 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  textContactUs: {
+  textContactMe: {
     fontSize: 20,
   },
 

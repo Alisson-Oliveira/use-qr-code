@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Image, Linking, Share } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, StyleSheet, Linking, Share, Animated } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { Camera } from 'expo-camera';
 import { BarCodeEvent, BarCodeScanner } from 'expo-barcode-scanner';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { ADD_LINK, GET_STORAGE, SET_STORAGE } from '../config/storage';
+
 import maximizeImg from '../images/maximize.png';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [domain, setDomain] = useState('');
+  const animatedImage = useRef(new Animated.Value(300)).current;
   const navigation = useNavigation();
 
   useEffect(() => {(
@@ -19,7 +21,25 @@ export default function App() {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
+
+    animatedImageSmall();
   }, []);
+
+  function animatedImageSmall() {
+    Animated.timing(animatedImage, {
+      toValue: 270,
+      duration: 3000,
+      useNativeDriver: false
+    }).start(() => animatedImageBig());
+  };
+
+  function animatedImageBig() {
+    Animated.timing(animatedImage, {
+      toValue: 300,
+      duration: 3000,
+      useNativeDriver: false
+    }).start(() => animatedImageSmall());
+  };
 
   async function handleBarCodeScanned({ data }: BarCodeEvent) {
     setScanned(true);
@@ -31,8 +51,8 @@ export default function App() {
       console.error(err);
       alert("Couldn't load page");
     });
-    
-    addLink(link);
+
+    navigation.goBack();
   };
 
   function handleShare(link: string) { 
@@ -42,15 +62,12 @@ export default function App() {
           console.error(err);
           alert("Couldn't share");
         });
-      addLink(link);
+
+      navigation.goBack();
     } catch (error) {
       console.error(error);
     }
   }
-
-  function handleBackHome(link: string) {
-    addLink(link);
-  };
 
   async function addLink(link: string) {
     const response = await GET_STORAGE(); 
@@ -74,11 +91,11 @@ export default function App() {
 
       ADD_LINK(data);
     }
-
-    navigation.goBack();
   }
 
-  async function handleBarCodeScannedCallback() {}
+  async function handleBarCodeScannedCallback({ data }: BarCodeEvent) {
+    addLink(data);
+  }
 
   if (!hasPermission) {
     return (
@@ -89,54 +106,59 @@ export default function App() {
   }
 
   return (
-    <>
+    <> 
       <BarCodeScanner
-        onBarCodeScanned={ !scanned ? handleBarCodeScanned : handleBarCodeScannedCallback }
-        style={[StyleSheet.absoluteFillObject, {
-          backgroundColor: '#DDDDDD',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          paddingTop: 112,
-        }]}
-      >
+        onBarCodeScanned={ 
+          !scanned ? handleBarCodeScanned : handleBarCodeScannedCallback 
+        }
+        style={ !scanned && StyleSheet.absoluteFillObject }
+      />
       {
-        !scanned &&
-        <>
-          <Image source={maximizeImg} />
-          <RectButton style={styles.buttonClose} onPress={navigation.goBack}>
-            <Feather name="x" size={32} color='#000000' />
-          </RectButton>
-        </>
-      }
-      </BarCodeScanner>
-      {
-        scanned &&
-        <View style={styles.response}>
-          <View style={styles.responseData}>
-            <Text style={[styles.title, { color: '#000000' }]}>Link</Text>
-            <View style={styles.containerLink}>
-              <Text>{domain}</Text>
+        !scanned && (
+          <View style={styles.containerMaximize}>
+            <View style={{ width: 300, height: 300, justifyContent: 'center', alignItems: 'center' }}>
+              <Animated.Image source={maximizeImg}
+                style={{
+                  width: animatedImage,
+                  height: animatedImage,
+                }}
+              />
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <RectButton style={styles.buttonAcess} onPress={() => handleAccess(domain)} >
-                <Text style={styles.title}>Acess</Text>
-                <Feather name="link-2" size={24} color='#FFFFFF' />
-              </RectButton>
-              <RectButton style={styles.buttonShare} onPress={() => handleShare(domain)} >
-                <Text style={styles.title}>Share</Text>
-                <Feather name="share-2" size={24} color='#FFFFFF' />
-              </RectButton>
-            </View>
-            <RectButton style={styles.buttonAgain} onPress={() => setScanned(false)}>
-              <Text style={styles.title}>Scan Again</Text>
-              <Feather name="rotate-ccw" size={24} color='#FFFFFF' />
-            </RectButton>
-            <RectButton style={styles.buttonBackHome} onPress={() => handleBackHome(domain)}>
-              <Text style={styles.title}>Back to the Panel</Text> 
-              <Feather name="corner-down-left" size={32} color='#FFFFFF' />
+            <RectButton style={styles.buttonClose} onPress={navigation.goBack}>
+              <Feather name="x" size={32} color='#000000' />
             </RectButton>
           </View>
-        </View>        
+        ) 
+      }
+      {
+        scanned && (
+          <View style={styles.response}>
+            <View style={styles.responseData}>
+              <Text style={[styles.title, { color: '#000000' }]}>Link</Text>
+              <View style={styles.containerLink}>
+                <Text>{domain}</Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <RectButton style={styles.buttonAcess} onPress={() => handleAccess(domain)} >
+                  <Text style={styles.title}>Acess</Text>
+                  <Feather name="link-2" size={24} color='#FFFFFF' />
+                </RectButton>
+                <RectButton style={styles.buttonShare} onPress={() => handleShare(domain)} >
+                  <Text style={styles.title}>Share</Text>
+                  <Feather name="share-2" size={24} color='#FFFFFF' />
+                </RectButton>
+              </View>
+              <RectButton style={styles.buttonAgain} onPress={() => setScanned(false)}>
+                <Text style={styles.title}>Scan Again</Text>
+                <Feather name="rotate-ccw" size={24} color='#FFFFFF' />
+              </RectButton>
+              <RectButton style={styles.buttonBackHome} onPress={navigation.goBack}>
+                <Text style={styles.title}>Back to the Panel</Text> 
+                <Feather name="corner-down-left" size={32} color='#FFFFFF' />
+              </RectButton>
+            </View>
+          </View>
+        )
       }
     </>
   );
@@ -147,6 +169,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  containerMaximize: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
 
   response: {

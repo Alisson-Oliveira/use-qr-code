@@ -5,7 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { GET_STORAGE, REMOVE_ALL, REMOVE_LINK } from '../config/storage';
 
-export default function Panel() {
+export default function Tools() {
   const [links, setLinks] = useState<LinkProps[]>([]);
   const navigation = useNavigation();
   
@@ -19,6 +19,10 @@ export default function Panel() {
 
   function handleToScanQrCode() {
     return navigation.navigate('ReaderQr');
+  }
+
+  function handleToAbout() {
+    return navigation.navigate('About');
   }
 
   function handleToContactMe() {
@@ -61,6 +65,10 @@ export default function Panel() {
           <RectButton style={styles.button} onPress={handleToScanQrCode}>
             <Feather style={styles.icon} name="maximize" size={32} />
             <Text style={styles.subTitle}>Scan QR Code</Text>
+          </RectButton>
+          <RectButton style={styles.button} onPress={handleToAbout}>
+            <Feather style={styles.icon} name="info" size={32} />
+            <Text style={styles.subTitle}>About</Text>
           </RectButton>
           <RectButton style={styles.button} onPress={handleToContactMe}>
             <Feather style={styles.icon} name="mail" size={32} />
