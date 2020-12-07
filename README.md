@@ -1,4 +1,4 @@
-# ![Use QR Code!](/images/use-qr-code.png "Use QR Code") 
+# ![Use QR Code!](/docs/use-qr-code.png "Use QR Code") 
 
 Projeto pessoal para evitar de receber propagandas em apps baixados hahaha.
 
@@ -10,15 +10,22 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - Use a Opção **ContactMe** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
+- Adicionar page "About".
+- Adicionar língua "Portuguêsa". 
+- Separar QR Code de Barcode.
 - Adicionar gerador de QR code.
 
 ### Plataformas
 - Android
 
 ### Ferramentas
-- React-native
 - Typescript
+- Javascript
 - Expo
+- React-native
 
 ### Versão Atual
-- 1.0.0
+- 1.0.1
+
+### Licença
+- [MIT](/docs/LICENÇA)

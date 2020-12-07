@@ -1,4 +1,10 @@
 {
+  "author": {
+    "name": "Alisson_Oliveira"
+  },
+  "version": "1.0.1",
+  "license": "MIT",
+  "private": true,
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -32,6 +38,5 @@
     "@types/react-dom": "~16.9.8",
     "@types/react-native": "~0.63.2",
     "typescript": "~3.9.5"
-  },
-  "private": true
+  }
 }
