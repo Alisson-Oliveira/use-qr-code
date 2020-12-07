@@ -2,7 +2,7 @@
   "expo": {
     "name": "Use QR Code",
     "slug": "use-qr-code",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "sdkVersion": "39.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

@@ -10,10 +10,11 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - Use a Opção **ContactMe** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Adicionar page "About".
-- Adicionar língua "Portuguêsa". 
-- Separar QR Code de Barcode.
-- Adicionar gerador de QR code.
+- Adicionar lanterna.
+- Mudar icone para 'file-text' nos 'Recently Opened' se não for link. 
+- Adicionar links de artigos sobre qr code.
+- Trocar de língua "Português" e "Inglês". 
+- Gerador de QR code.
 
 ### Plataformas
 - Android
@@ -25,7 +26,7 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - React-native
 
 ### Versão Atual
-- 1.0.1
+- 1.0.2
 
 ### Licença
 - [MIT](/docs/LICENÇA)
