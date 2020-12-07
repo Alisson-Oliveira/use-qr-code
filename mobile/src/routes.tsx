@@ -5,9 +5,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const { Navigator, Screen } = createStackNavigator();
 
-import Panel from './pages/Panel';
-import ContactMe from './pages/ContactMe';
+import Tools from './pages/Tools';
 import ReaderQr from './pages/ReaderQr';
+import About from './pages/About';
+import ContactMe from './pages/ContactMe';
 
 export default function Routes() {
   return (
@@ -16,11 +17,24 @@ export default function Routes() {
         headerShown: false,
       }}>
         <Screen 
-          name="Panel" 
-          component={Panel}
+          name="Tools" 
+          component={Tools}
           options={{ 
             headerShown: true,
             title: 'Use Qr Code', 
+            headerTitleAlign: 'center' 
+          }}
+        />
+        <Screen 
+          name="ReaderQr" 
+          component={ReaderQr}
+        />
+        <Screen 
+          name="About" 
+          component={About}
+          options={{ 
+            headerShown: true,
+            title: 'About', 
             headerTitleAlign: 'center' 
           }}
         />
@@ -32,10 +46,6 @@ export default function Routes() {
             title: 'Contact Me', 
             headerTitleAlign: 'center' 
           }}
-        />
-        <Screen 
-          name="ReaderQr" 
-          component={ReaderQr}
         />
       </Navigator>
     </NavigationContainer>    
