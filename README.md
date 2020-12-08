@@ -10,10 +10,12 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - Use a Opção **ContactMe** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Adicionar lanterna.
+- Adicionar page 'Settings'.
 - Mudar icone para 'file-text' nos 'Recently Opened' se não for link. 
 - Adicionar links de artigos sobre qr code.
-- Trocar de língua "Português" e "Inglês". 
+- 2 línguas língua "Português" e "Inglês".
+- Tema 'dark' e 'light'. 
+- Adicionar lanterna.
 - Gerador de QR code.
 
 ### Plataformas

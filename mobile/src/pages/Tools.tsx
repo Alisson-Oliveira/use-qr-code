@@ -70,6 +70,10 @@ export default function Tools() {
             <Feather style={styles.icon} name="info" size={32} />
             <Text style={styles.subTitle}>About</Text>
           </RectButton>
+          <RectButton style={styles.button} onPress={() => alert('Em breve...')}>
+            <Feather style={styles.icon} name="settings" size={32} />
+            <Text style={styles.subTitle}>Settings</Text>
+          </RectButton>
           <RectButton style={styles.button} onPress={handleToContactMe}>
             <Feather style={styles.icon} name="mail" size={32} />
             <Text style={styles.subTitle}>Contact Me</Text>

@@ -11,6 +11,7 @@ import maximizeImg from '../images/maximize.png';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(false);
+  const [flashMode, setFlashMode] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [domain, setDomain] = useState('');
   const animatedImage = useRef(new Animated.Value(300)).current;
@@ -20,6 +21,8 @@ export default function App() {
     async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
+
+      // setFlashMode(Camera.Constants.FlashMode);
     })();
 
     animatedImageSmall();
@@ -28,7 +31,7 @@ export default function App() {
   function animatedImageSmall() {
     Animated.timing(animatedImage, {
       toValue: 270,
-      duration: 3000,
+      duration: 2000,
       useNativeDriver: false
     }).start(() => animatedImageBig());
   };
@@ -36,7 +39,7 @@ export default function App() {
   function animatedImageBig() {
     Animated.timing(animatedImage, {
       toValue: 300,
-      duration: 3000,
+      duration: 2000,
       useNativeDriver: false
     }).start(() => animatedImageSmall());
   };
@@ -44,6 +47,8 @@ export default function App() {
   async function handleBarCodeScanned({ data }: BarCodeEvent) {
     setScanned(true);
     setDomain(data);
+    
+    addLink(data);
   };
 
   function handleAccess(link: string) {
@@ -93,13 +98,11 @@ export default function App() {
     }
   }
 
-  async function handleBarCodeScannedCallback({ data }: BarCodeEvent) {
-    addLink(data);
-  }
+  async function handleBarCodeScannedCallback() { }
 
   if (!hasPermission) {
     return (
-      <View style={styles.loading}>
+      <View style={styles.container}>
         <Text>Carregando...</Text>
       </View>
     );
@@ -108,15 +111,14 @@ export default function App() {
   return (
     <> 
       <BarCodeScanner
-        onBarCodeScanned={ 
-          !scanned ? handleBarCodeScanned : handleBarCodeScannedCallback 
-        }
+        barCodeTypes={[ BarCodeScanner.Constants.BarCodeType.qr ]}
+        onBarCodeScanned={ !scanned ? handleBarCodeScanned : handleBarCodeScannedCallback }
         style={ !scanned && StyleSheet.absoluteFillObject }
       />
       {
         !scanned && (
-          <View style={styles.containerMaximize}>
-            <View style={{ width: 300, height: 300, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={styles.container}>
+            <View style={styles.imageAnimated}>
               <Animated.Image source={maximizeImg}
                 style={{
                   width: animatedImage,
@@ -134,27 +136,55 @@ export default function App() {
         scanned && (
           <View style={styles.response}>
             <View style={styles.responseData}>
-              <Text style={[styles.title, { color: '#000000' }]}>Link</Text>
-              <View style={styles.containerLink}>
+              <Text style={styles.titleResult}>Result</Text>
+              <View style={styles.containerResult}>
                 <Text>{domain}</Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
-                <RectButton style={styles.buttonAcess} onPress={() => handleAccess(domain)} >
-                  <Text style={styles.title}>Acess</Text>
-                  <Feather name="link-2" size={24} color='#FFFFFF' />
+              <View style={styles.buttonsAcessShare}>
+                <RectButton 
+                  style={styles.buttonAcess} 
+                  onPress={() => handleAccess(domain)}
+                >
+                  <Text style={styles.titleButton}>Acess</Text>
+                  <Feather 
+                    name="link-2" 
+                    size={24} 
+                    color='#FFFFFF' 
+                  />
                 </RectButton>
-                <RectButton style={styles.buttonShare} onPress={() => handleShare(domain)} >
-                  <Text style={styles.title}>Share</Text>
-                  <Feather name="share-2" size={24} color='#FFFFFF' />
+                <RectButton 
+                  style={styles.buttonShare} 
+                  onPress={() => handleShare(domain)}
+                >
+                  <Text style={styles.titleButton}>Share</Text>
+                  <Feather 
+                    name="share-2" 
+                    size={24} 
+                    color='#FFFFFF' 
+                  />
                 </RectButton>
               </View>
-              <RectButton style={styles.buttonAgain} onPress={() => setScanned(false)}>
-                <Text style={styles.title}>Scan Again</Text>
-                <Feather name="rotate-ccw" size={24} color='#FFFFFF' />
+              <RectButton 
+                style={styles.buttonAgain} 
+                onPress={() => setScanned(false)}
+              >
+                <Text style={styles.titleButton}>Scan Again</Text>
+                <Feather 
+                  name="rotate-ccw" 
+                  size={24} 
+                  color='#FFFFFF' 
+                />
               </RectButton>
-              <RectButton style={styles.buttonBackHome} onPress={navigation.goBack}>
-                <Text style={styles.title}>Back to the Panel</Text> 
-                <Feather name="corner-down-left" size={32} color='#FFFFFF' />
+              <RectButton 
+                style={styles.buttonBackHome} 
+                onPress={navigation.goBack}
+              >
+                <Text style={styles.titleButton}>Back to the Panel</Text> 
+                <Feather 
+                  name="corner-down-left" 
+                  size={24} 
+                  color='#FFFFFF' 
+                />
               </RectButton>
             </View>
           </View>
@@ -165,23 +195,24 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  loading: {
+  container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
 
-  containerMaximize: {
-    flex: 1, 
+  imageAnimated: {
+    width: 300, 
+    height: 300, 
     justifyContent: 'center', 
     alignItems: 'center'
   },
 
   response: {
     flex: 1,
-    marginBottom: 48,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#DDDDDD',
   },
 
   buttonClose: {
@@ -199,6 +230,7 @@ const styles = StyleSheet.create({
     height: 480,
     padding: 12,
     width: '80%',
+    elevation: 5,
     borderRadius: 12,
     alignItems: 'center',
     position: 'absolute',
@@ -207,25 +239,35 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 
-  containerLink: {
+  containerResult: {
     height: 200,
     padding: 12, 
-    width: '100%', 
+    width: '100%',
     borderRadius: 12, 
     alignItems: 'center', 
     justifyContent: 'center',
     backgroundColor: '#F0F0F0'
   },
 
-  title: {
+  titleResult: {
     fontSize: 20,
-    paddingRight: 6,
+    color: '#000000',
+  },
+
+  buttonsAcessShare: {
+    flexDirection: 'row',
+  },
+
+  titleButton: {
+    fontSize: 20,
+    paddingRight: 12,
     color: '#FFFFFF',
   },
 
   buttonAcess: {
     flex: 1,
     height: 64,
+    elevation: 2, 
     marginRight: 5,
     borderRadius: 12,
     flexDirection: 'row',
@@ -237,6 +279,7 @@ const styles = StyleSheet.create({
   buttonShare: {
     flex: 1,
     height: 64,
+    elevation: 2,
     marginLeft: 5,
     borderRadius: 12,
     flexDirection: 'row',
@@ -248,6 +291,7 @@ const styles = StyleSheet.create({
   buttonAgain: {
     height: 64,
     width: '100%',
+    elevation: 2,
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
@@ -257,6 +301,7 @@ const styles = StyleSheet.create({
 
   buttonBackHome: {
     height: 64,
+    elevation: 2,
     width: '100%',
     borderRadius: 12,
     flexDirection: 'row',
