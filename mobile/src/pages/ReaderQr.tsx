@@ -6,24 +6,39 @@ import { BarCodeEvent, BarCodeScanner } from 'expo-barcode-scanner';
 import { RectButton } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { ADD_LINK, GET_STORAGE, SET_STORAGE } from '../config/storage';
-
+import { GET_LANGUAGE } from '../config/languages';
+import { scan as engScan } from '../languages/english';
+import { scan as porScan } from '../languages/portuguese';
 import maximizeImg from '../images/maximize.png';
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(false);
-  const [flashMode, setFlashMode] = useState(false);
   const [scanned, setScanned] = useState(false);
   const [domain, setDomain] = useState('');
   const animatedImage = useRef(new Animated.Value(300)).current;
   const navigation = useNavigation();
+  const [languageScene, setLanguageScene] = useState<LanguageScanProps>();
 
   useEffect(() => {(
     async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
-
-      // setFlashMode(Camera.Constants.FlashMode);
     })();
+
+    GET_LANGUAGE()
+    .then(languageData => {
+      if (languageData) {
+        if (languageData === 'english') {
+          setLanguageScene(engScan);
+        } else {
+          setLanguageScene(porScan);
+        }
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      setLanguageScene(engScan);
+    });
 
     animatedImageSmall();
   }, []);
@@ -103,7 +118,7 @@ export default function App() {
   if (!hasPermission) {
     return (
       <View style={styles.container}>
-        <Text>Carregando...</Text>
+        <Text>{languageScene?.loading}</Text>
       </View>
     );
   }
@@ -136,7 +151,7 @@ export default function App() {
         scanned && (
           <View style={styles.response}>
             <View style={styles.responseData}>
-              <Text style={styles.titleResult}>Result</Text>
+              <Text style={styles.titleResult}>{languageScene?.result}</Text>
               <View style={styles.containerResult}>
                 <Text>{domain}</Text>
               </View>
@@ -145,7 +160,7 @@ export default function App() {
                   style={styles.buttonAcess} 
                   onPress={() => handleAccess(domain)}
                 >
-                  <Text style={styles.titleButton}>Acess</Text>
+                  <Text style={styles.titleButton}>{languageScene?.acess}</Text>
                   <Feather 
                     name="link-2" 
                     size={24} 
@@ -156,10 +171,17 @@ export default function App() {
                   style={styles.buttonShare} 
                   onPress={() => handleShare(domain)}
                 >
-                  <Text style={styles.titleButton}>Share</Text>
+                  <Text style={
+                    languageScene?.share !== 'Compartilhar' ? 
+                      styles.titleButton : [
+                      styles.titleButton, { 
+                      fontSize: 18, 
+                      paddingRight: 6 
+                    }]
+                    }>{languageScene?.share}</Text>
                   <Feather 
                     name="share-2" 
-                    size={24} 
+                    size={languageScene?.share !== 'Compartilhar' ? 24 : 20} 
                     color='#FFFFFF' 
                   />
                 </RectButton>
@@ -168,7 +190,7 @@ export default function App() {
                 style={styles.buttonAgain} 
                 onPress={() => setScanned(false)}
               >
-                <Text style={styles.titleButton}>Scan Again</Text>
+                <Text style={styles.titleButton}>{languageScene?.again}</Text>
                 <Feather 
                   name="rotate-ccw" 
                   size={24} 
@@ -179,7 +201,7 @@ export default function App() {
                 style={styles.buttonBackHome} 
                 onPress={navigation.goBack}
               >
-                <Text style={styles.titleButton}>Back to the Panel</Text> 
+                <Text style={styles.titleButton}>{languageScene?.leave}</Text> 
                 <Feather 
                   name="corner-down-left" 
                   size={24} 
