@@ -10,10 +10,7 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - Use a Opção **ContactMe** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Adicionar page 'Settings'.
-- Mudar icone para 'file-text' nos 'Recently Opened' se não for link. 
 - Adicionar links de artigos sobre qr code.
-- 2 línguas língua "Português" e "Inglês".
 - Tema 'dark' e 'light'. 
 - Adicionar lanterna.
 - Gerador de QR code.
@@ -23,12 +20,11 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 
 ### Ferramentas
 - Typescript
-- Javascript
 - Expo
 - React-native
 
 ### Versão Atual
-- 1.0.2
+- 1.0.3
 
 ### Licença
 - [MIT](/docs/LICENÇA)
