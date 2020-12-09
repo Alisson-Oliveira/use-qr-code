@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AsyncStorageScannerQrCode = '@scanner.qr.code'; 
+const AsyncStorageScannerQrCode = '@scanner.qr.code:qrs'; 
 
 export const GET_STORAGE = async () => {
   try {
@@ -44,9 +44,9 @@ export const ADD_LINK = async (link: LinkProps) => {
 
     const data = [
       ...responseData,
-      link
+      link,
     ];
-
+ 
     SET_STORAGE(data);
   } catch(error) {
     console.error(error);
@@ -77,7 +77,7 @@ export const REMOVE_LINK = async (link: string) => {
 
 export const REMOVE_ALL = async () => {
   try {
-    await AsyncStorage.clear();    
+    await AsyncStorage.removeItem(AsyncStorageScannerQrCode);    
   } catch (error) {
     console.error(error);
 
