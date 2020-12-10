@@ -10,10 +10,9 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Adicionar links de artigos sobre qr code.
-- Tema 'dark' e 'light'. 
-- Adicionar lanterna.
 - Gerador de QR code.
+- Adicionar lanterna.
+- Adicionar links de artigos sobre qr code.
 
 ### Plataformas
 - Android
@@ -24,7 +23,7 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - React-native
 
 ### Versão Atual
-- 1.0.3
+- 1.0.4
 
 ### Licença
 - [MIT](/docs/LICENÇA)
