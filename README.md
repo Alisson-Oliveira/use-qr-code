@@ -7,7 +7,7 @@ Quem tiver a fim de ajudar, pode ficar a vontade :)
 Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 
 ### Obs
-- Use a Opção **ContactMe** para relatar bugs ou abra uma **Issues**.
+- Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
 - Adicionar links de artigos sobre qr code.
