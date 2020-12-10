@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, ScrollView, Linking, Share } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { GET_STORAGE, REMOVE_ALL, REMOVE_LINK } from '../config/storage';
 import { GET_LANGUAGE } from '../config/languages';
@@ -39,7 +39,11 @@ export default function Tools() {
   },[links]);
 
   function handleToScanQrCode() {
-    return navigation.navigate('ReaderQr');
+    return navigation.navigate('ScanQr');
+  }
+
+  function handleToCreateQrCode() {
+    return navigation.navigate('CreateQr');
   }
 
   function handleToAbout() {
@@ -94,6 +98,10 @@ export default function Tools() {
                 <Feather style={styles.icon} name="maximize" size={30} />
                 <Text style={styles.subTitle}>{languageScene?.scan}</Text>
               </RectButton>
+              <RectButton style={styles.button} onPress={handleToCreateQrCode}>
+                <FontAwesome style={[styles.icon, { marginLeft: 3 }]} name="qrcode" size={30} />
+                <Text style={[styles.subTitle, { marginLeft: 3 }]}>{languageScene?.qr}</Text>
+              </RectButton>
               <RectButton style={styles.button} onPress={handleToAbout}>
                 <Feather style={styles.icon} name="info" size={30} />
                 <Text style={styles.subTitle}>{languageScene?.about}</Text>
@@ -108,7 +116,7 @@ export default function Tools() {
             <Text style={styles.title}>{languageScene?.recently}</Text> 
             <RectButton style={styles.containerButtonCleanAll} onPress={handleRemoveAll}>
               <Text style={styles.titleCleanAll}>{languageScene?.clean}</Text>
-              <Feather name="trash-2" size={16} color='#FF4040' />
+              <Feather name="trash-2" size={16} color='#CC0000' />
             </RectButton>
           </View>
           <View style={styles.links}>
@@ -116,7 +124,8 @@ export default function Tools() {
               links.length !== 0 ? (
                 links.map((response, index) => (
                   <View key={index} style={styles.containerLink}> 
-                    <RectButton style={styles.link} onPress={() => handleAccessLink(response.link)}>
+                    <RectButton style={styles.link} onPress={() =>{ 
+                      checkLink(response.link) && handleAccessLink(response.link)}}>
                       {
                         checkLink(response.link) ? 
                           <Feather style={styles.icon} name="link" size={27} /> : 
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
   titleCleanAll: {
     fontSize: 16,
     marginRight: 3,
-    color: '#FF4040',
+    color: '#CC0000',
   },
 
   subTitle: {
@@ -212,7 +221,7 @@ const styles = StyleSheet.create({
 
   containerLink: {
     padding: 6,
-    elevation: 3,
+    elevation: 1,
     marginTop: 12,
     borderRadius: 12,
     flexDirection: 'row', 

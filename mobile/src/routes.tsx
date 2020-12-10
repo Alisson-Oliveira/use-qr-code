@@ -6,7 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 const { Navigator, Screen } = createStackNavigator();
 
 import Tools from './pages/Tools';
-import ReaderQr from './pages/ReaderQr';
+import ScanQr from './pages/ScanQr';
+import CreateQr from './pages/CreateQr';
 import About from './pages/About';
 import Settings from './pages/Settings';
 
@@ -21,8 +22,12 @@ export default function Routes() {
           component={Tools}
         />
         <Screen 
-          name="ReaderQr" 
-          component={ReaderQr}
+          name="ScanQr" 
+          component={ScanQr}
+        />
+        <Screen 
+          name="CreateQr" 
+          component={CreateQr}
         />
         <Screen 
           name="About" 
