@@ -17,6 +17,7 @@ declare type LanguageToolsProps = {
   tools: string,
   recently: string,
   scan: string,
+  qr: string,
   about: string,
   settings: string,
   clean: string,

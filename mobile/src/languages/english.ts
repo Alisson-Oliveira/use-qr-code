@@ -2,6 +2,7 @@ export const tools = {
   tools: 'Tools',
   recently: 'Recently Opened',
   scan: 'Scan QR Code',
+  qr: 'Create QR Code',
   about: 'About',
   settings: 'Settings',
   clean: 'Clean All',
@@ -40,9 +41,4 @@ export const settings = {
   bug: 'Any bug?',
   contact: 'Please, contact me :)',
   send: 'Send',
-};
-
-export const headers = {
-  
-  
 };

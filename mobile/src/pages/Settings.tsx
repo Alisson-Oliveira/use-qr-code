@@ -10,7 +10,6 @@ import Header from '../components/Header';
 
 export default function Settings() {
   const [language, setLanguage] = useState('english');
-  const [thema, setThema] = useState('light');
   const [titleHeader, setTitleHeader] = useState('');
   const [languageScene, setLanguageScene] = useState<LanguageSettingsProps>();
 
@@ -93,52 +92,6 @@ export default function Settings() {
             </View>
           </View>
           <View style={styles.item}>
-            <View style={styles.containerTitleIcon}>
-              {
-                thema === 'light' ? (
-                  <Feather name='sun' size={20} />
-                ) : (
-                  <Feather name='moon' size={20} />
-                ) 
-              }
-              <Text style={styles.containerTitle}>{languageScene?.theme} (coming soon...)</Text>
-            </View>
-            <View style={styles.languages}>
-              <RectButton style={styles.chooseLanguage} onPress={() => setThema('light')}>
-                { 
-                  thema === 'light' ? (
-                    <Feather name='check-circle' size={18} color='#0099FF'/>
-                  ) : (
-                    <Feather name='circle' size={18} color='#000000'/>
-                  ) 
-                }
-                {
-                  thema === 'light' ? (
-                    <Text style={[styles.subTitle, { color: '#0099FF' }]}>{languageScene?.light}</Text>
-                  ) : (
-                    <Text style={[styles.subTitle, { color: '#000000' }]}>{languageScene?.light}</Text>
-                  ) 
-                } 
-              </RectButton>
-              <RectButton style={styles.chooseLanguage} onPress={() => setThema('dark')}>
-                { 
-                  thema === 'dark' ? (
-                    <Feather name='check-circle' size={18} color='#0099FF'/>
-                  ) : (
-                    <Feather name='circle' size={18} color='#000000'/>
-                  ) 
-                }
-                {
-                  thema === 'dark' ? (
-                    <Text style={[styles.subTitle, { color: '#0099FF' }]}>{languageScene?.dark}</Text>
-                  ) : (
-                    <Text style={[styles.subTitle, { color: '#000000' }]}>{languageScene?.dark}</Text>
-                  ) 
-                } 
-              </RectButton>
-            </View>
-          </View>
-          <View style={styles.item}>
             <View style={styles.containerItem}>
               <View style={styles.containerTitleIcon}>
                 <Feather name='edit-3' size={20} />
@@ -172,12 +125,11 @@ export default function Settings() {
               <Feather name='package' size={20} />
               <Text style={styles.containerTitle}>{languageScene?.version}</Text>
             </View>
-            <Text style={styles.subTitle}>1.0.3</Text>
+            <Text style={styles.subTitle}>1.0.4</Text>
           </View>
         </View>
       </ScrollView>
     </>
-    
   )
 }
 
