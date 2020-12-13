@@ -4,13 +4,13 @@ Projeto pessoal para evitar de receber propagandas em apps baixados hahaha.
 
 Quem tiver a fim de ajudar, pode ficar a vontade :)
 
-Apk disponível em **mobile/build/android/@Versão Atual** para teste.
+Apk disponível em **Releases**.
 
 ### Obs
 - Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Gerador de QR code.
+- Compartilhar Qr Gerado.
 - Adicionar lanterna.
 - Adicionar links de artigos sobre qr code.
 
@@ -23,7 +23,7 @@ Apk disponível em **mobile/build/android/@Versão Atual** para teste.
 - React-native
 
 ### Versão Atual
-- 1.0.4
+- 1.1.0
 
 ### Licença
 - [MIT](/docs/LICENÇA)
