@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { View, Text, StyleSheet, Linking, ScrollView } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+
 import { SET_LANGUAGE, GET_LANGUAGE } from '../config/languages';
 import { settings as engSettings } from '../languages/english';
 import { settings as porSettings } from '../languages/portuguese';
@@ -27,10 +28,6 @@ export default function Settings() {
           }
         }
       })
-      .catch(error => {
-        console.error(error);
-        setLanguageScene(engSettings);
-      });
   }, [language]);
 
   async function handleToSendMail() {
@@ -53,11 +50,18 @@ export default function Settings() {
         <View style={styles.settings}>
           <View style={styles.item}>
             <View style={styles.containerTitleIcon}>
-              <Feather name='type' size={20} color='#000000'/>
+              <Feather 
+                name='type' 
+                size={20} 
+                color='#000000'
+              />
               <Text style={styles.containerTitle}>{languageScene?.language}</Text>
             </View>
             <View style={styles.languages}>
-              <RectButton style={styles.chooseLanguage} onPress={() => handleAlterLanguage('english')}>
+              <RectButton 
+                style={styles.chooseLanguage} 
+                onPress={() => handleAlterLanguage('english')}
+              >
                 { 
                   language === 'english' ? (
                     <Feather name='check-circle' size={18} color='#0099FF'/>
@@ -67,13 +71,26 @@ export default function Settings() {
                 }
                 {
                   language === 'english' ? (
-                    <Text style={[styles.subTitle, { color: '#0099FF' }]}>{languageScene?.english}</Text>
+                    <Text style={[styles.subTitle, { 
+                        color: '#0099FF' 
+                      }]}
+                    >
+                      {languageScene?.english}
+                    </Text>
                   ) : (
-                    <Text style={[styles.subTitle, { color: '#000000' }]}>{languageScene?.english}</Text>
+                    <Text style={[styles.subTitle, { 
+                        color: '#000000' 
+                      }]}
+                    >
+                      {languageScene?.english}
+                    </Text>
                   ) 
                 }              
               </RectButton>
-              <RectButton style={styles.chooseLanguage} onPress={() => handleAlterLanguage('portuguese')}>
+              <RectButton 
+                style={styles.chooseLanguage} 
+                onPress={() => handleAlterLanguage('portuguese')}
+              >
                 {
                   language === 'portuguese' ? (
                     <Feather name='check-circle' size={18} color='#0099FF'/>
@@ -83,9 +100,19 @@ export default function Settings() {
                 }
                 {
                   language === 'portuguese' ? (
-                    <Text style={[styles.subTitle, { color: '#0099FF' }]}>{languageScene?.portuguese}</Text>
+                    <Text style={[styles.subTitle, { 
+                        color: '#0099FF' 
+                      }]}
+                    >
+                      {languageScene?.portuguese}
+                    </Text>
                   ) : (
-                    <Text style={[styles.subTitle, { color: '#000000' }]}>{languageScene?.portuguese}</Text>
+                    <Text style={[styles.subTitle, { 
+                        color: '#000000' 
+                      }]}
+                    >
+                      {languageScene?.portuguese}
+                    </Text>
                   ) 
                 }
               </RectButton>
@@ -125,7 +152,7 @@ export default function Settings() {
               <Feather name='package' size={20} />
               <Text style={styles.containerTitle}>{languageScene?.version}</Text>
             </View>
-            <Text style={styles.subTitle}>1.0.4</Text>
+            <Text style={styles.subTitle}>1.1.0</Text>
           </View>
         </View>
       </ScrollView>

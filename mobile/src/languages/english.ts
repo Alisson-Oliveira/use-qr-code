@@ -42,3 +42,12 @@ export const settings = {
   contact: 'Please, contact me :)',
   send: 'Send',
 };
+
+export const create = {
+  create: 'Create QR',
+  text: 'Text',
+  or: 'or',
+  generate: 'Generate',
+  share: 'Share',
+  comingSoon: 'Coming soon ...',
+}

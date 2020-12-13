@@ -48,3 +48,12 @@ declare type LanguageSettingsProps = {
   contact: string,
   send: string,
 }
+
+declare type LanguageCreateProps = {
+  create: string,
+  text: string,
+  or: string,
+  generate: string,
+  share: string,
+  comingSoon: string,
+}

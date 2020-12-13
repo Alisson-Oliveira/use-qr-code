@@ -3,12 +3,15 @@ import { Text, View, StyleSheet, ScrollView, Linking, Share } from 'react-native
 import { RectButton } from 'react-native-gesture-handler';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+
 import { GET_STORAGE, REMOVE_ALL, REMOVE_LINK } from '../config/storage';
 import { GET_LANGUAGE } from '../config/languages';
+
 import { tools as engTools } from '../languages/english';
 import { tools as porTools } from '../languages/portuguese';
 
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 
 export default function Tools() {
   const [links, setLinks] = useState<LinkProps[]>([]);
@@ -26,14 +29,10 @@ export default function Tools() {
         }
       }
     })
-    .catch(error => {
-      console.error(error);
-      setLanguageScene(engTools);
-    });
 
     GET_STORAGE().then(response => {
       if (response !== undefined) {
-        setLinks(response);
+        setLinks(response.reverse());
       }
     });
   },[links]);
@@ -86,65 +85,142 @@ export default function Tools() {
     return link.indexOf('http') > -1;
   }
 
+  if (!languageScene) {
+    return <Loading />
+  }
+
   return (
     <>
       <Header title='Use QR Code' />
       <ScrollView style={styles.container}>
         <View style={styles.tools}>        
           <View>
-            <Text style={styles.title}>{languageScene?.tools}</Text>
-            <View style={{backgroundColor: '#FFFFFF', borderRadius: 12, padding: 12, marginVertical: 12, elevation: 1}}>
-              <RectButton style={styles.button} onPress={handleToScanQrCode}>
-                <Feather style={styles.icon} name="maximize" size={30} />
-                <Text style={styles.subTitle}>{languageScene?.scan}</Text>
+            <Text style={styles.title}>{languageScene.tools}</Text>
+            <View style={styles.containerTools}>
+              <RectButton 
+                style={styles.button} 
+                onPress={handleToScanQrCode}
+              >
+                <Feather 
+                  style={styles.icon} 
+                  name="maximize" 
+                  size={30} 
+                />
+                <Text style={styles.subTitle}>{languageScene.scan}</Text>
               </RectButton>
-              <RectButton style={styles.button} onPress={handleToCreateQrCode}>
-                <FontAwesome style={[styles.icon, { marginLeft: 3 }]} name="qrcode" size={30} />
-                <Text style={[styles.subTitle, { marginLeft: 3 }]}>{languageScene?.qr}</Text>
+              <RectButton 
+                style={styles.button} 
+                onPress={handleToCreateQrCode}
+              >
+                <FontAwesome 
+                  style={[styles.icon, { 
+                    marginLeft: 3 
+                  }]} 
+                  name="qrcode" 
+                  size={30} 
+                />
+                <Text 
+                  style={[styles.subTitle, { 
+                    marginLeft: 3 
+                  }]}
+                >
+                  {languageScene.qr}
+                </Text>
               </RectButton>
-              <RectButton style={styles.button} onPress={handleToAbout}>
-                <Feather style={styles.icon} name="info" size={30} />
-                <Text style={styles.subTitle}>{languageScene?.about}</Text>
+              <RectButton 
+                style={styles.button} 
+                onPress={handleToAbout}
+              >
+                <Feather 
+                  style={styles.icon} 
+                  name="info" 
+                  size={30} 
+                />
+                <Text style={styles.subTitle}>{languageScene.about}</Text>
               </RectButton>
-              <RectButton style={styles.button} onPress={handleToSettings}>
-                <Feather style={styles.icon} name="settings" size={30} />
-                <Text style={styles.subTitle}>{languageScene?.settings}</Text>
+              <RectButton 
+                style={styles.button} 
+                onPress={handleToSettings}
+              >
+                <Feather 
+                  style={styles.icon} 
+                  name="settings" 
+                  size={30} 
+                />
+                <Text style={styles.subTitle}>{languageScene.settings}</Text>
               </RectButton>
             </View>
           </View>
           <View style={styles.containerCleanAll}>
-            <Text style={styles.title}>{languageScene?.recently}</Text> 
-            <RectButton style={styles.containerButtonCleanAll} onPress={handleRemoveAll}>
-              <Text style={styles.titleCleanAll}>{languageScene?.clean}</Text>
-              <Feather name="trash-2" size={16} color='#CC0000' />
+            <Text style={styles.title}>{languageScene.recently}</Text> 
+            <RectButton 
+              style={styles.containerButtonCleanAll} 
+              onPress={handleRemoveAll}
+            >
+              <Text style={styles.titleCleanAll}>{languageScene.clean}</Text>
+              <Feather 
+                name="trash-2" 
+                size={16} 
+                color='#CC0000' 
+              />
             </RectButton>
           </View>
           <View style={styles.links}>
             {
               links.length !== 0 ? (
                 links.map((response, index) => (
-                  <View key={index} style={styles.containerLink}> 
-                    <RectButton style={styles.link} onPress={() =>{ 
-                      checkLink(response.link) && handleAccessLink(response.link)}}>
+                  <View 
+                    key={index} 
+                    style={styles.containerLink}
+                  > 
+                    <RectButton 
+                      style={styles.link} 
+                      onPress={() => { 
+                        checkLink(response.link) && handleAccessLink(response.link)
+                      }}
+                    >
                       {
-                        checkLink(response.link) ? 
-                          <Feather style={styles.icon} name="link" size={27} /> : 
-                          <Feather style={styles.icon} name="file-text" size={27} />
+                        checkLink(response.link) ? ( 
+                            <Feather 
+                              style={styles.icon} 
+                              name="link" 
+                              size={27} />
+                          ) : ( 
+                            <Feather 
+                              style={styles.icon} 
+                              name="file-text" 
+                              size={27} 
+                            />
+                          )
                       }
                       <Text style={styles.dominio}>{response.link}</Text>
                     </RectButton>
                     <RectButton onPress={() => handleShareLink(response.link)}>
-                      <Feather style={[styles.iconShareClose, { marginRight: 6 }]} name="share-2" size={20} />
+                      <Feather 
+                        style={[styles.iconShareClose, { 
+                          marginRight: 6 
+                        }]} 
+                        name="share-2" 
+                        size={20}
+                      />
                     </RectButton>
                     <RectButton onPress={() => handleRemoveLink(response.link)}>
-                      <Feather style={styles.iconShareClose} name="x" size={20} />
+                      <Feather 
+                        style={styles.iconShareClose} 
+                        name="x" 
+                        size={20} 
+                      />
                     </RectButton>
                   </View>
                 ))
               ) : (
                 <View style={styles.containerEmpty}>
-                  <Feather name="alert-triangle" size={20} color='#000000' />
-                  <Text>{languageScene?.empty}</Text>
+                  <Feather 
+                    name="alert-triangle" 
+                    size={20} 
+                    color='#000000' 
+                  />
+                  <Text>{languageScene.empty}</Text>
                 </View>
               )
             }
@@ -152,11 +228,21 @@ export default function Tools() {
         </View>  
       </ScrollView>
     </>
-
   );
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+  },
+   
+  text: {
+    fontSize: 16, 
+    marginBottom: 12,
+  },
+
   container: {
     flex: 1,
     backgroundColor: '#F2F2F2',
@@ -165,6 +251,14 @@ const styles = StyleSheet.create({
   tools: {
     width: '100%',
     padding: 24,
+  },
+
+  containerTools: {
+    backgroundColor: '#FFFFFF', 
+    borderRadius: 12, 
+    padding: 12, 
+    marginVertical: 12, 
+    elevation: 1,
   },
 
   title: {
