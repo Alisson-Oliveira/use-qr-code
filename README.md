@@ -10,9 +10,9 @@ Apk disponível em **Releases**.
 - Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Compartilhar Qr Gerado.
-- Adicionar lanterna.
 - Adicionar links de artigos sobre qr code.
+- Compartilhar e baixar Qr Gerado.
+- Adicionar lanterna.
 
 ### Plataformas
 - Android
@@ -23,7 +23,7 @@ Apk disponível em **Releases**.
 - React-native
 
 ### Versão Atual
-- 1.1.0
+- 1.1.1
 
 ### Licença
 - [MIT](/docs/LICENÇA)

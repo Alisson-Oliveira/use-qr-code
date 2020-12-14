@@ -1,4 +1,5 @@
 declare module "*.png";
+declare module "*.jpg";
 
 declare type LinkProps = {
   link: string,
@@ -7,7 +8,7 @@ declare type LinkProps = {
 declare type LanguageScanProps = {
   loading: string,
   result: string,
-  acess: string,
+  access: string,
   share: string,
   again: string,
   leave: string,
@@ -26,9 +27,21 @@ declare type LanguageToolsProps = {
 
 declare type LanguageAboutProps = {
   title: string,
+  articles: Array<ArticleDataProps>,
+}
+
+declare type ArticleDataProps = {
+  title: string,
+  author: string,
   reference: string,
+  article: Array<ArticleProps>,
+}
+
+declare type ArticleProps = {
+  title: string,
   paragraph_1: string,
   paragraph_2: string,
+  image: string,
   paragraph_3: string,
   paragraph_4: string,
 }
@@ -52,8 +65,8 @@ declare type LanguageSettingsProps = {
 declare type LanguageCreateProps = {
   create: string,
   text: string,
-  or: string,
   generate: string,
+  download: string,
   share: string,
   comingSoon: string,
 }
