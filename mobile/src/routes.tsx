@@ -9,6 +9,7 @@ import Tools from './pages/Tools';
 import ScanQr from './pages/ScanQr';
 import CreateQr from './pages/CreateQr';
 import About from './pages/About';
+import Details from './pages/Details';
 import Settings from './pages/Settings';
 
 export default function Routes() {
@@ -32,6 +33,10 @@ export default function Routes() {
         <Screen 
           name="About" 
           component={About}
+        />
+        <Screen 
+          name="Details" 
+          component={Details}
         />
         <Screen 
           name="Settings" 

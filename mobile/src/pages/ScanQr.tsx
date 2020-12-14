@@ -160,7 +160,7 @@ export default function App() {
                   style={styles.buttonAcess} 
                   onPress={() => handleAccess(domain)}
                 >
-                  <Text style={styles.titleButton}>{languageScene?.acess}</Text>
+                  <Text style={styles.titleButton}>{languageScene?.access}</Text>
                   <Feather 
                     name="link-2" 
                     size={24} 

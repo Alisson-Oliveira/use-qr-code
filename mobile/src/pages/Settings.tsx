@@ -152,7 +152,7 @@ export default function Settings() {
               <Feather name='package' size={20} />
               <Text style={styles.containerTitle}>{languageScene?.version}</Text>
             </View>
-            <Text style={styles.subTitle}>1.1.0</Text>
+            <Text style={styles.subTitle}>1.1.1</Text>
           </View>
         </View>
       </ScrollView>
