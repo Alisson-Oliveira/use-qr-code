@@ -23,7 +23,7 @@ Apk disponível em **Releases**.
 - React-native
 
 ### Versão Atual
-- 1.1.1
+- 1.1.2
 
 ### Licença
 - [MIT](/docs/LICENÇA)
