@@ -10,8 +10,7 @@ Apk disponível em **Releases**.
 - Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Adicionar links de artigos sobre qr code.
-- Compartilhar e baixar Qr Gerado.
+- Compartilhar ou baixar Qr Gerado.
 - Adicionar lanterna.
 
 ### Plataformas
