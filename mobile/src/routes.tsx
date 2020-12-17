@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
 const { Navigator, Screen } = createStackNavigator();
 
 import Tools from './pages/Tools';
@@ -18,30 +16,12 @@ export default function Routes() {
       <Navigator screenOptions={{ 
         headerShown: false,
       }}>
-        <Screen 
-          name="Tools" 
-          component={Tools}
-        />
-        <Screen 
-          name="ScanQr" 
-          component={ScanQr}
-        />
-        <Screen 
-          name="CreateQr" 
-          component={CreateQr}
-        />
-        <Screen 
-          name="About" 
-          component={About}
-        />
-        <Screen 
-          name="Details" 
-          component={Details}
-        />
-        <Screen 
-          name="Settings" 
-          component={Settings}
-        />
+        <Screen name="Tools" component={Tools} />
+        <Screen name="ScanQr" component={ScanQr} />
+        <Screen name="CreateQr" component={CreateQr} />
+        <Screen name="About" component={About} />
+        <Screen name="Details" component={Details} />
+        <Screen name="Settings" component={Settings} />
       </Navigator>
     </NavigationContainer>    
   );

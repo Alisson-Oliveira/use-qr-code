@@ -35,11 +35,11 @@ export default function CreateQr() {
 
   function handleGenerateQrCode(data: string) {
     setQrcode(data);
-  }
+  };
 
   if (!languageScene) {
     return <Loading />
-  }
+  };
 
   return (
     <>

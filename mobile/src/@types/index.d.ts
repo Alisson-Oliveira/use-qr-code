@@ -33,7 +33,6 @@ declare type LanguageAboutProps = {
 declare type ArticleDataProps = {
   title: string,
   author: string,
-  reference: string,
   article: Array<ArticleProps>,
 }
 
@@ -41,9 +40,9 @@ declare type ArticleProps = {
   title: string,
   paragraph_1: string,
   paragraph_2: string,
-  image: string,
   paragraph_3: string,
   paragraph_4: string,
+  reference: string,
 }
 
 declare type LanguageSettingsProps = {

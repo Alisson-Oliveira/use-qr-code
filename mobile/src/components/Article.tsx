@@ -10,15 +10,16 @@ import canaltechImg from '../images/articles/canaltech_photo.jpg';
 
 interface ComponentArticleProps {
   index: number,
+  indexLanguage: number,
   article: ArticleDataProps,
-}
+};
 
-export default function Article({ index, article }: ComponentArticleProps) {
+export default function Article({ index, indexLanguage, article }: ComponentArticleProps) {
   const navigation = useNavigation();
 
-  function handleToDetails(article: ArticleProps) {
-    navigation.navigate('Details', { article });
-  }
+  function handleToDetails(article: ArticleProps, titleHeader: string) {
+    navigation.navigate('Details', { article, titleHeader });
+  };
 
   function showImage(index: number){
     if (index === 0) {
@@ -33,11 +34,13 @@ export default function Article({ index, article }: ComponentArticleProps) {
     if (index === 3) {
       return canaltechImg;
     }
-  }
+  };
 
   return (
     <RectButton 
-      onPress={() => handleToDetails(article.article[index])} 
+      onPress={() => {
+        handleToDetails(article.article[indexLanguage], article.title)
+      }} 
       style={styles.button}
     >
       <Image 

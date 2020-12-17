@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 
 export default function About() {
   const [languageScene, setLanguageScene] = useState<LanguageAboutProps>();
+  const [indexLanguage, setIndexLanguage] = useState<number>(0);
   const [titleHeader, setTitleHeader] = useState('');
 
   useEffect(() => {
@@ -18,9 +19,11 @@ export default function About() {
       if (languageData) {
         if (languageData === 'english') {
           setLanguageScene(engAbout);
+          setIndexLanguage(1);
           setTitleHeader('About');
         } else {
           setLanguageScene(porAbout);
+          setIndexLanguage(0);
           setTitleHeader('Sobre');
         }
       }
@@ -29,7 +32,7 @@ export default function About() {
 
   if (!languageScene) {
     return <Loading />;
-  }
+  };
 
   return (
     <>
@@ -46,6 +49,7 @@ export default function About() {
                 key={index}
                 index={index}
                 article={article}
+                indexLanguage={indexLanguage}
               />
             ))   
           }

@@ -87,7 +87,7 @@ export default function App() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   async function addLink(link: string) {
     const response = await GET_STORAGE(); 
@@ -111,9 +111,9 @@ export default function App() {
 
       ADD_LINK(data);
     }
-  }
+  };
 
-  async function handleBarCodeScannedCallback() { }
+  async function handleBarCodeScannedCallback() { };
 
   if (!hasPermission) {
     return (
@@ -121,7 +121,7 @@ export default function App() {
         <Text>{languageScene?.loading}</Text>
       </View>
     );
-  }
+  };
 
   return (
     <> 

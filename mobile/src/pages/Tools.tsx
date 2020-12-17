@@ -28,7 +28,7 @@ export default function Tools() {
           setLanguageScene(porTools);
         }
       }
-    })
+    });
 
     GET_STORAGE().then(response => {
       if (response !== undefined) {
@@ -39,23 +39,23 @@ export default function Tools() {
 
   function handleToScanQrCode() {
     return navigation.navigate('ScanQr');
-  }
+  };
 
   function handleToCreateQrCode() {
     return navigation.navigate('CreateQr');
-  }
+  };
 
   function handleToAbout() {
     return navigation.navigate('About');
-  }
+  };
 
   function handleToSettings() {
     return navigation.navigate('Settings');
-  }
+  };
 
   function handleRemoveAll() {
     REMOVE_ALL();
-  }
+  };
 
   function handleAccessLink(link: string) {
     Linking.openURL(link)
@@ -63,7 +63,7 @@ export default function Tools() {
         console.error(err);
         alert("Couldn't load page");
       });
-  }
+  };
 
   function handleShareLink(link: string) {
     try {
@@ -75,19 +75,19 @@ export default function Tools() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   function handleRemoveLink(link: string) {
     REMOVE_LINK(link);
-  } 
+  } ;
 
   function checkLink(link: string) {
     return link.indexOf('http') > -1;
-  }
+  };
 
   if (!languageScene) {
     return <Loading />
-  }
+  };
 
   return (
     <>
