@@ -10,6 +10,7 @@ Apk disponível em **Releases**.
 - Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
+- Converter SVG em Imagem.
 - Compartilhar ou baixar Qr Code Gerado.
 - Adicionar lanterna.
 - Atualizar SDK 39 para SDK 40.

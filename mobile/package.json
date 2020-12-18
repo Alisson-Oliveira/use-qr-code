@@ -2,7 +2,7 @@
   "author": {
     "name": "Alisson_Oliveira"
   },
-  "version": "1.0.1",
+  "version": "1.1.3",
   "license": "MIT",
   "private": true,
   "main": "node_modules/expo/AppEntry.js",
