@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AsyncStorageScannerQrCode = '@scanner.qr.code:qrs'; 
+const AsyncStorageUseQrCode = '@use.qr.code:qrs'; 
 
 export const GET_STORAGE = async () => {
   try {
-    const value = await AsyncStorage.getItem(AsyncStorageScannerQrCode);
+    const value = await AsyncStorage.getItem(AsyncStorageUseQrCode);
 
     if (value === null) {
       const data: LinkProps[] = [];
@@ -24,7 +24,7 @@ export const GET_STORAGE = async () => {
 
 export const SET_STORAGE = async (data: LinkProps[]) => {
   try {
-    await AsyncStorage.setItem(AsyncStorageScannerQrCode, JSON.stringify(data));
+    await AsyncStorage.setItem(AsyncStorageUseQrCode, JSON.stringify(data));
   } catch (error) {
     console.error(error);
     
@@ -34,7 +34,7 @@ export const SET_STORAGE = async (data: LinkProps[]) => {
 
 export const ADD_LINK = async (link: LinkProps) => {
   try {
-    const value = await AsyncStorage.getItem(AsyncStorageScannerQrCode);
+    const value = await AsyncStorage.getItem(AsyncStorageUseQrCode);
 
     if (value === null) {
       return ;
@@ -57,7 +57,7 @@ export const ADD_LINK = async (link: LinkProps) => {
 
 export const REMOVE_LINK = async (link: string) => {
   try {
-    const value = await AsyncStorage.getItem(AsyncStorageScannerQrCode);
+    const value = await AsyncStorage.getItem(AsyncStorageUseQrCode);
 
     if (value === null) {
       return ;
@@ -77,7 +77,8 @@ export const REMOVE_LINK = async (link: string) => {
 
 export const REMOVE_ALL = async () => {
   try {
-    await AsyncStorage.removeItem(AsyncStorageScannerQrCode);    
+    await AsyncStorage.clear();  
+    // await AsyncStorage.removeItem(AsyncStorageUseQrCode);    
   } catch (error) {
     console.error(error);
 

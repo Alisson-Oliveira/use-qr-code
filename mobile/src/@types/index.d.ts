@@ -64,6 +64,7 @@ declare type LanguageSettingsProps = {
 declare type LanguageCreateProps = {
   create: string,
   text: string,
+  text_2: string,
   generate: string,
   download: string,
   share: string,

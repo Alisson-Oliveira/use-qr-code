@@ -9,6 +9,8 @@ import { settings as porSettings } from '../languages/portuguese';
 
 import Header from '../components/Header';
 
+import App from '../../app.json'
+
 export default function Settings() {
   const [language, setLanguage] = useState('english');
   const [titleHeader, setTitleHeader] = useState('');
@@ -152,7 +154,7 @@ export default function Settings() {
               <Feather name='package' size={20} />
               <Text style={styles.containerTitle}>{languageScene?.version}</Text>
             </View>
-            <Text style={styles.subTitle}>1.1.1</Text>
+            <Text style={styles.subTitle}>{App.expo.version}</Text>
           </View>
         </View>
       </ScrollView>

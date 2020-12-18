@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AsyncStorageScannerQrCode = '@scanner.qr.code:language'; 
+const AsyncStorageUseQrCode = '@use.qr.code:language'; 
 
 export const GET_LANGUAGE = async () => {
   try {
-    const value = await AsyncStorage.getItem(AsyncStorageScannerQrCode);
+    const value = await AsyncStorage.getItem(AsyncStorageUseQrCode);
 
     if (value === null) {
       return 'english';
@@ -22,7 +22,7 @@ export const GET_LANGUAGE = async () => {
 
 export const SET_LANGUAGE = async (data: string) => {
   try {
-    await AsyncStorage.setItem(AsyncStorageScannerQrCode, JSON.stringify(data));
+    await AsyncStorage.setItem(AsyncStorageUseQrCode, JSON.stringify(data));
   } catch (error) {
     console.error(error);
     
