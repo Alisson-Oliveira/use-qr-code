@@ -13,11 +13,20 @@ import { create as porCreate } from '../languages/portuguese';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 
+interface SvgProps {
+  Svg: {
+    d: string,
+  }
+}
+
 export default function CreateQr() {
   const [languageScene, setLanguageScene] = useState<LanguageCreateProps>();
   const [qrcode, setQrcode] = useState('Use QR Code');
   const [value, setValue] = useState('');
-  const [image, setImage] = useState<string>();
+  const [image, setImage] = useState(''); 
+  const [generateLogo, setGenerateLogo] = useState(false);
+  const [options, setOptions] = useState(false);
+  const [qrRef, setQrRef] = useState<SvgProps>();
 
   useEffect(() => {
     GET_LANGUAGE()
@@ -37,7 +46,16 @@ export default function CreateQr() {
   },[]);
 
   function handleGenerateQrCode(data: string) {
-    setQrcode(data);
+    if (data) {
+      setQrcode(data);
+      setOptions(true);
+
+      if (image !== '') {
+        setGenerateLogo(true);
+      } else {
+        setGenerateLogo(false);
+      }
+    }
   };
 
   async function handleSelectImage() {
@@ -61,7 +79,29 @@ export default function CreateQr() {
     const { uri: logo } = result;
 
     setImage(logo);
-  }
+  };
+
+  function handleRemoveLogo() {
+    setImage('');
+    setGenerateLogo(false);
+  };
+
+  function handleEditQrCode() {
+    setValue('');
+    setImage('');
+    setGenerateLogo(false);
+    setOptions(false);
+  };
+
+  function handleDownload() {
+    if (!qrRef) {
+      return ;
+    }
+
+    const qrData = qrRef as SvgProps;
+
+    console.log(qrData);
+  };
 
   if (!languageScene) {
     return <Loading />
@@ -102,7 +142,7 @@ export default function CreateQr() {
                           marginRight: 6,
                           resizeMode: 'cover' 
                       }}/>
-                      <Feather onPress={() => setImage('')} name='x' size={20} color='#CC0000' />
+                      <Feather onPress={handleRemoveLogo} name='x' size={20} color='#CC0000' />
                     </>
                   )
                 }
@@ -128,50 +168,69 @@ export default function CreateQr() {
           </View>
           <View style={styles.containerQr}>
             {
-              image === '' ? (
+              !generateLogo ? (
                 <View style={styles.backgroundQr}>
                   <QRCode 
                     value={qrcode === '' ? 'Use QR Code' : qrcode}
                     size={256}
+                    getRef={setQrRef}
                   />
                 </View>
               ) : (
                 <View style={styles.backgroundQr}>
                   <QRCode 
                     value={qrcode === '' ? 'Use QR Code' : qrcode}
-                    logo={image === undefined ? InterrogacaoImg : image }
+                    logo={image === '' ? InterrogacaoImg : image}
                     logoBackgroundColor='#FFFFFF'
                     logoBorderRadius={100}
                     logoMargin={6}
                     logoSize={80}
                     size={256}
+                    getRef={setQrRef}
                   />
                 </View>
               )
             }
           </View>
-          <RectButton 
-            onPress={() => alert(languageScene.comingSoon)} 
-            style={styles.buttonType}
-          > 
-            <Text style={styles.buttonText}>{languageScene.share}</Text>
-            <Feather 
-              name='link-2' 
-              size={20} 
-              color='#258E25'
-            />
-          </RectButton>
-          <RectButton 
-            onPress={() => alert(languageScene.comingSoon)} 
-            style={styles.buttonType}
-          > 
-            <Text style={styles.buttonText}>{languageScene.download}</Text>
-            <Feather 
-              name='download' 
-              size={20} 
-              color='#258E25'
-            />
-          </RectButton>
+          { 
+            options && (
+              <>
+                <RectButton 
+                  onPress={handleEditQrCode} 
+                  style={styles.buttonType}
+                > 
+                  <Text style={styles.buttonText}>{languageScene.edit}</Text>
+                  <Feather 
+                    name='edit' 
+                    size={20} 
+                    color='#258E25'
+                  />
+                </RectButton>
+                <RectButton 
+                  onPress={() => alert(languageScene.comingSoon)} 
+                  style={styles.buttonType}
+                > 
+                  <Text style={styles.buttonText}>{languageScene.share}</Text>
+                  <Feather 
+                    name='link-2' 
+                    size={20} 
+                    color='#258E25'
+                  />
+                </RectButton>
+                <RectButton 
+                  onPress={handleDownload} 
+                  style={styles.buttonType}
+                > 
+                  <Text style={styles.buttonText}>{languageScene.download}</Text>
+                  <Feather 
+                    name='download' 
+                    size={20} 
+                    color='#258E25'
+                  />
+                </RectButton>
+              </>
+            )
+          }
         </View>
       </ScrollView>
     </>

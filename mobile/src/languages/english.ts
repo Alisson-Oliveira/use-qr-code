@@ -46,6 +46,7 @@ export const create = {
   create: 'Create QR',
   text: 'Type a text',
   text_2: 'Add a logo (optional)',
+  edit: 'Edit',
   generate: 'Generate',
   download: 'Download',
   share: 'Share',
