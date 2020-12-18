@@ -10,8 +10,9 @@ Apk disponível em **Releases**.
 - Use a Opção **Suporte** para relatar bugs ou abra uma **Issues**.
 
 ### Atualizações Futuras
-- Compartilhar ou baixar Qr Gerado.
+- Compartilhar ou baixar Qr Code Gerado.
 - Adicionar lanterna.
+- Atualizar SDK 39 para SDK 40.
 
 ### Plataformas
 - Android
@@ -22,7 +23,7 @@ Apk disponível em **Releases**.
 - React-native
 
 ### Versão Atual
-- 1.1.2
+- 1.1.3
 
 ### Licença
 - [MIT](/docs/LICENÇA)
