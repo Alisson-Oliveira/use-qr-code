@@ -3,8 +3,6 @@ import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import QRCode from 'react-native-qrcode-svg';
-import * as ImagePicker from 'expo-image-picker';
-import InterrogacaoImg from '../images/interrogacao.png';
 
 import { GET_LANGUAGE } from '../config/languages';
 import { create as engCreate } from '../languages/english';
@@ -13,20 +11,12 @@ import { create as porCreate } from '../languages/portuguese';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 
-interface SvgProps {
-  Svg: {
-    d: string,
-  }
-}
-
 export default function CreateQr() {
   const [languageScene, setLanguageScene] = useState<LanguageCreateProps>();
   const [qrcode, setQrcode] = useState('Use QR Code');
   const [value, setValue] = useState('');
-  const [image, setImage] = useState(''); 
-  const [generateLogo, setGenerateLogo] = useState(false);
+  const [generate, setGenerate] = useState(false);
   const [options, setOptions] = useState(false);
-  const [qrRef, setQrRef] = useState<SvgProps>();
 
   useEffect(() => {
     GET_LANGUAGE()
@@ -49,58 +39,12 @@ export default function CreateQr() {
     if (data) {
       setQrcode(data);
       setOptions(true);
-
-      if (image !== '') {
-        setGenerateLogo(true);
-      } else {
-        setGenerateLogo(false);
-      }
     }
-  };
-
-  async function handleSelectImage() {
-    const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (status !== 'granted') {
-      alert('Eita, precisamos de acesso a suas fotos...');
-      return; 
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      quality: 1,
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
-
-    if (result.cancelled) {
-      return;
-    }
-
-    const { uri: logo } = result;
-
-    setImage(logo);
-  };
-
-  function handleRemoveLogo() {
-    setImage('');
-    setGenerateLogo(false);
   };
 
   function handleEditQrCode() {
     setValue('');
-    setImage('');
-    setGenerateLogo(false);
     setOptions(false);
-  };
-
-  function handleDownload() {
-    if (!qrRef) {
-      return ;
-    }
-
-    const qrData = qrRef as SvgProps;
-
-    console.log(qrData);
   };
 
   if (!languageScene) {
@@ -120,86 +64,45 @@ export default function CreateQr() {
               onChangeText={setValue} 
               value={value}
             />
-            <Text style={styles.text}>{languageScene.text_2}</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <RectButton 
-                  onPress={handleSelectImage}
-                  style={styles.buttonAdd}
-                >
-                  <Feather name='plus' size={20} color='#000000' />
-                </RectButton>
-                {
-                  image !== '' && (
-                    <>
-                      <Image 
-                        source={{ uri: image }} 
-                        style={{ 
-                          height: 54, 
-                          width: 54, 
-                          borderRadius: 12,
-                          marginLeft: 12,
-                          marginRight: 6,
-                          resizeMode: 'cover' 
-                      }}/>
-                      <Feather onPress={handleRemoveLogo} name='x' size={20} color='#CC0000' />
-                    </>
-                  )
-                }
-              </View>
-              <RectButton 
-                onPress={() => handleGenerateQrCode(value)} 
-                style={styles.buttonGenerate}
-              > 
-                <Text 
-                  style={[styles.buttonText, { 
-                    color: value !== '' ? '#258E25' : '#808080'
-                  }]}
-                >
-                  {languageScene.generate}
-                </Text>
-                <Feather 
-                  name='file-plus' 
-                  size={20} 
-                  color={value !== '' ? '#258E25' : '#808080'}
-                />
-              </RectButton>
-            </View>
+            <RectButton 
+              onPress={() => handleGenerateQrCode(value)} 
+              style={styles.buttonGenerate}
+            > 
+              <Text 
+                style={[styles.buttonText, { 
+                  color: value !== '' ? '#258E25' : '#808080'
+                }]}
+              >
+                {languageScene.generate}
+              </Text>
+              <Feather 
+                name='file-plus' 
+                size={20} 
+                color={value !== '' ? '#258E25' : '#808080'}
+              />
+            </RectButton>
+
           </View>
           <View style={styles.containerQr}>
             {
-              !generateLogo ? (
+              !generate && (
                 <View style={styles.backgroundQr}>
                   <QRCode 
                     value={qrcode === '' ? 'Use QR Code' : qrcode}
                     size={256}
-                    getRef={setQrRef}
                   />
                 </View>
-              ) : (
-                <View style={styles.backgroundQr}>
-                  <QRCode 
-                    value={qrcode === '' ? 'Use QR Code' : qrcode}
-                    logo={image === '' ? InterrogacaoImg : image}
-                    logoBackgroundColor='#FFFFFF'
-                    logoBorderRadius={100}
-                    logoMargin={6}
-                    logoSize={80}
-                    size={256}
-                    getRef={setQrRef}
-                  />
-                </View>
-              )
+              ) 
             }
           </View>
           { 
-            options && (
+            options ? (
               <>
                 <RectButton 
                   onPress={handleEditQrCode} 
                   style={styles.buttonType}
                 > 
-                  <Text style={styles.buttonText}>{languageScene.edit}</Text>
+                  <Text style={styles.buttonText}>{languageScene.new}</Text>
                   <Feather 
                     name='edit' 
                     size={20} 
@@ -218,7 +121,7 @@ export default function CreateQr() {
                   />
                 </RectButton>
                 <RectButton 
-                  onPress={handleDownload} 
+                  onPress={() => alert(languageScene.comingSoon)} 
                   style={styles.buttonType}
                 > 
                   <Text style={styles.buttonText}>{languageScene.download}</Text>
@@ -228,6 +131,11 @@ export default function CreateQr() {
                     color='#258E25'
                   />
                 </RectButton>
+              </>
+            ) : (
+              <>
+                <Text style={styles.textInfo}>{languageScene.about_1}</Text>
+                <Text style={styles.textInfo}>{languageScene.about_2}</Text>
               </>
             )
           }
@@ -296,6 +204,11 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
 
+  textInfo: {
+    fontSize: 16,
+    color: '#000000',
+  },
+
   buttonType: {
     marginTop: 12,
     backgroundColor: '#FFFFFF', 
@@ -308,16 +221,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center', 
     elevation: 1,
   },
-
-  buttonAdd: {
-    backgroundColor: '#FFFFFF', 
-    width: 54, 
-    height: 54, 
-    flexDirection: 'row', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 12, 
-    alignSelf: 'flex-start', 
-    elevation: 1, 
-  }
 });

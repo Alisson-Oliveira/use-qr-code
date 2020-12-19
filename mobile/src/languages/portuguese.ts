@@ -1,6 +1,6 @@
 import { articles as articlesData } from '../services/articles';
 
-export const tools = {
+export const tools: LanguageToolsProps = {
   tools: 'Ferramentas',
   recently: 'Aberto Recentemente',
   scan: 'Escanear QR Code',
@@ -11,7 +11,7 @@ export const tools = {
   empty: 'Não tem link disponível :(',
 };
 
-export const scan = {
+export const scan: LanguageScanProps = {
   loading: 'Carregando...',
   result: 'Resultado',
   access: 'Acessar',
@@ -20,13 +20,12 @@ export const scan = {
   leave: 'Sair',
 };
 
-export const about = {
+export const about: LanguageAboutProps = {
   title: 'Aprenda sobre QR Code',
-  by: 'Por',
   articles: articlesData.map(article => article),
 };
 
-export const settings = {
+export const settings: LanguageSettingsProps = {
   language: 'Linguagem',
   theme: 'Tema',
   support: 'Suporte',
@@ -42,11 +41,12 @@ export const settings = {
   send: 'Enviar',
 };
 
-export const create = {
+export const create: LanguageCreateProps = {
   create: 'Criar QR',
   text: 'Escreva um texto',
-  text_2: 'Adicionar uma logo (opcional)',
-  edit: 'Editar',
+  new: 'Novo',
+  about_1: `Descubra o que é um código QR na página 'Sobre'.`,
+  about_2: 'Espero que gostem dos artigos escolhidos :)',
   generate: 'Gerar',
   download: 'Baixar',
   share: 'Compartilhar',

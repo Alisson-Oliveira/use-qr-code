@@ -77,8 +77,7 @@ export const REMOVE_LINK = async (link: string) => {
 
 export const REMOVE_ALL = async () => {
   try {
-    await AsyncStorage.clear();  
-    // await AsyncStorage.removeItem(AsyncStorageUseQrCode);    
+    await AsyncStorage.removeItem(AsyncStorageUseQrCode);    
   } catch (error) {
     console.error(error);
 

@@ -1,6 +1,6 @@
 import { articles as articlesData } from '../services/articles';
 
-export const tools = {
+export const tools: LanguageToolsProps = {
   tools: 'Tools',
   recently: 'Recently Opened',
   scan: 'Scan QR Code',
@@ -11,7 +11,7 @@ export const tools = {
   empty: 'Has no link available :(',
 };
 
-export const scan = {
+export const scan: LanguageScanProps = {
   loading: 'Loading...',
   result: 'Result',
   access: 'Access',
@@ -20,13 +20,12 @@ export const scan = {
   leave: 'Leave',
 };
 
-export const about = {
+export const about: LanguageAboutProps = {
   title: 'Learn about QR Code',
-  by: 'By',
   articles: articlesData.map(article => article),
 };
 
-export const settings = {
+export const settings: LanguageSettingsProps = {
   language: 'Language',
   theme: 'Theme',
   support: 'Support',
@@ -42,11 +41,12 @@ export const settings = {
   send: 'Send',
 };
 
-export const create = {
+export const create: LanguageCreateProps = {
   create: 'Create QR',
   text: 'Type a text',
-  text_2: 'Add a logo (optional)',
-  edit: 'Edit',
+  new: 'New',
+  about_1: `Find out what a QR code is on the 'About' page.`,
+  about_2: 'I hope you like the articles chosen :)',
   generate: 'Generate',
   download: 'Download',
   share: 'Share',
